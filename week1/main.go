@@ -8,6 +8,7 @@ import (
 
 func main() {
 	m := []byte("attack at dawn")
+	m2 := []byte("attack at dusk")
 	c, err := hex.DecodeString("6c73d5240a948c86981bc294814d")
 	if err != nil {
 		log.Fatal(err)
@@ -15,26 +16,24 @@ func main() {
 
 	fmt.Printf("PT: %b\n", m)
 	fmt.Printf("CT: %b\n", c)
+
 	key := xorBytes(m, c)
 	fmt.Println(key)
-	fmt.Println(hex.EncodeToString(xorBytes(m, key)))
+
 	fmt.Println(string(xorBytes(c, key)))
+	fmt.Println(hex.EncodeToString(xorBytes(m, key)))
+	fmt.Println(hex.EncodeToString(xorBytes(m2, key)))
 }
 
-func xorBytes(b1 []byte, bmore ...[]byte) []byte {
-	for _, m := range bmore {
-		if len(b1) != len(m) {
-			panic("length mismatch")
-		}
+func xorBytes(b1, b2 []byte) []byte {
+	if len(b1) != len(b2) {
+		panic("length mismatch")
 	}
-
-	rv := make([]byte, len(b1))
+	xor := make([]byte, len(b1))
 
 	for i := range b1 {
-		for _, m := range bmore {
-			rv[i] = b1[i] ^ m[i]
-		}
+			xor[i] = b1[i] ^ b2[i]
 	}
 
-	return rv
+	return xor
 }
