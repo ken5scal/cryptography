@@ -2,7 +2,7 @@ package cryptography
 
 import "math/big"
 
-func Gcd(a, b *big.Int) big.Int {
+func Gcd(a, b *big.Int) *big.Int {
 	g := big.NewInt(1)
 	if a.Cmp(b) < 0 {
 		tmp := a; a = b; b= tmp
