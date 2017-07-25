@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	g, _ := Gcd(big.NewInt(2), big.NewInt(10))
+	g, _ := Gcd(big.NewInt(780), big.NewInt(600))
 	fmt.Println(g)
 }
 
