@@ -7,8 +7,29 @@ import (
 )
 
 func main() {
-	g, _ := Gcd(big.NewInt(780), big.NewInt(600))
+	a := big.NewInt(780)
+	b := big.NewInt(600)
+	g, _ := Gcd(a, b)
 	fmt.Println(g)
+
+	a = big.NewInt(780)
+	b = big.NewInt(600)
+	g = EuclidGCD(a, b)
+	fmt.Println(g)
+}
+
+func EuclidGCD(a, b *big.Int) *big.Int {
+	r := big.NewInt(1)
+
+	for {
+		r.Mod(a, b)
+		if r.Cmp(big.NewInt(0)) == 0 {
+			return b
+		}
+		*a = *b
+		*b = *r
+	}
+	return b
 }
 
 // 試行 割り算
