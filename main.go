@@ -18,16 +18,18 @@ func main() {
 	fmt.Println(g)
 }
 
-func EuclidGCD(a, b *big.Int) *big.Int {
-	r := big.NewInt(1)
-
-	for {
+func EuclidGCD(aOrig, bOrig *big.Int) *big.Int {
+	// Making sure immutability
+	a := big.NewInt(aOrig.Int64())
+	b := big.NewInt(bOrig.Int64())
+	// Nonzero Initialization
+	for r := big.NewInt(1);; {
 		r.Mod(a, b)
 		if r.Cmp(big.NewInt(0)) == 0 {
 			return b
 		}
-		*a = *b
-		*b = *r
+		a.Set(b)
+		b.Set(r)
 	}
 	return b
 }
