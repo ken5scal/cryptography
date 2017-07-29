@@ -25,7 +25,7 @@ func EuclidGCD(aOrig, bOrig *big.Int) *big.Int {
 
 	for r := big.NewInt(0);; {
 		r.Mod(a, b)
-		if r.Cmp(big.NewInt(0)) == 0 {
+		if r.Int64() == 0 {
 			return b
 		}
 		a.Set(b)
