@@ -12,8 +12,8 @@ func main() {
 	g, _ := Gcd(a, b)
 	fmt.Println(g)
 
-	a = big.NewInt(780)
-	b = big.NewInt(600)
+	a = big.NewInt(135632)
+	b = big.NewInt(44461)
 	g = EuclidGCD(a, b)
 	fmt.Println(g)
 }
@@ -22,8 +22,8 @@ func EuclidGCD(aOrig, bOrig *big.Int) *big.Int {
 	// Making sure immutability
 	a := big.NewInt(aOrig.Int64())
 	b := big.NewInt(bOrig.Int64())
-	// Nonzero Initialization
-	for r := big.NewInt(1);; {
+
+	for r := big.NewInt(0);; {
 		r.Mod(a, b)
 		if r.Cmp(big.NewInt(0)) == 0 {
 			return b
