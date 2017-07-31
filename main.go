@@ -18,6 +18,32 @@ func main() {
 	fmt.Println(g)
 }
 
+// BinaryEuclidGCD calculated gcd(最大公約数) using Binaryユークリッド互除法アルゴリズム
+func BinaryEuclidGCD(aOrig, bOrig *big.Int) *big.Int {
+	// Making sure immutability
+	a := big.NewInt(aOrig.Int64())
+	b := big.NewInt(bOrig.Int64())
+
+	g := big.NewInt(1)
+	for a.Int64() > 0 {
+		if a.Mod(a, big.NewInt(2)).Int64() == 0 && b.Mod(b, big.NewInt(2)).Int64() == 0 {
+			g.Mul(g, big.NewInt(2))
+		} else if a.Mod(a, big.NewInt(2)).Int64() != 0 && b.Mod(b, big.NewInt(2)).Int64() == 0 {
+			b.Mul(g, big.NewInt(2)) // 元に戻す
+		} else if a.Mod(a, big.NewInt(2)).Int64() != 0 && b.Mod(b, big.NewInt(2)).Int64() != 0 {
+			t := a.Abs(a.Sub(a,b)).Mul(a,big.NewInt(2))
+			if a.Cmp(b) >= 0 {
+				a = t
+			} else {
+				b =t
+			}
+		}
+	}
+
+	return big.NewInt(g.Int64() * b.Int64())
+}
+
+// EuclidGCD calculated gcd(最大公約数) using ユークリッド互除法アルゴリズム
 func EuclidGCD(aOrig, bOrig *big.Int) *big.Int {
 	// Making sure immutability
 	a := big.NewInt(aOrig.Int64())
