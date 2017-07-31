@@ -16,6 +16,11 @@ func main() {
 	b = big.NewInt(44461)
 	g = EuclidGCD(a, b)
 	fmt.Println(g)
+
+	a = big.NewInt(646)
+	b = big.NewInt(408)
+	g = BinaryEuclidGCD(a, b)
+	fmt.Println(g)
 }
 
 // BinaryEuclidGCD calculated gcd(最大公約数) using Binaryユークリッド互除法アルゴリズム
@@ -23,24 +28,37 @@ func BinaryEuclidGCD(aOrig, bOrig *big.Int) *big.Int {
 	// Making sure immutability
 	a := big.NewInt(aOrig.Int64())
 	b := big.NewInt(bOrig.Int64())
+	isBool := func(num int64) bool {return num % 2 == 0}
+	calcT := func(a, b int64) *big.Int {
+		t := (a-b)/2
+		if t < 0 {
+			t *= -1
+		}
+		return big.NewInt(t)
+	}
+	two := big.NewInt(2)
 
 	g := big.NewInt(1)
 	for a.Int64() > 0 {
-		if a.Mod(a, big.NewInt(2)).Int64() == 0 && b.Mod(b, big.NewInt(2)).Int64() == 0 {
-			g.Mul(g, big.NewInt(2))
-		} else if a.Mod(a, big.NewInt(2)).Int64() != 0 && b.Mod(b, big.NewInt(2)).Int64() == 0 {
-			b.Mul(g, big.NewInt(2)) // 元に戻す
-		} else if a.Mod(a, big.NewInt(2)).Int64() != 0 && b.Mod(b, big.NewInt(2)).Int64() != 0 {
-			t := a.Abs(a.Sub(a,b)).Mul(a,big.NewInt(2))
+		if isBool(a.Int64()) && isBool(b.Int64()) {
+			a.Div(a, two)
+			b.Div(b, two)
+			g.Mul(g, two)
+		} else if isBool(a.Int64()) && !isBool(b.Int64()){
+			a.Div(a, two)
+		} else if !isBool(a.Int64()) && isBool(b.Int64()) {
+			b.Div(b, two)
+		} else {
+			t := calcT(a.Int64(), b.Int64())
 			if a.Cmp(b) >= 0 {
 				a = t
-			} else {
-				b =t
+				continue
 			}
+			b = t
 		}
 	}
 
-	return big.NewInt(g.Int64() * b.Int64())
+	return g.Mul(g, b)
 }
 
 // EuclidGCD calculated gcd(最大公約数) using ユークリッド互除法アルゴリズム
