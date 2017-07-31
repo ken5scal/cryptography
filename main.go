@@ -28,6 +28,8 @@ func BinaryEuclidGCD(aOrig, bOrig *big.Int) *big.Int {
 	// Making sure immutability
 	a := big.NewInt(aOrig.Int64())
 	b := big.NewInt(bOrig.Int64())
+	g := big.NewInt(1)
+
 	isBool := func(num int64) bool {return num % 2 == 0}
 	calcT := func(a, b int64) *big.Int {
 		t := (a-b)/2
@@ -38,7 +40,6 @@ func BinaryEuclidGCD(aOrig, bOrig *big.Int) *big.Int {
 	}
 	two := big.NewInt(2)
 
-	g := big.NewInt(1)
 	for a.Int64() > 0 {
 		if isBool(a.Int64()) && isBool(b.Int64()) {
 			a.Div(a, two)
