@@ -30,7 +30,7 @@ func BinaryEuclidGCD(aOrig, bOrig *big.Int) *big.Int {
 	b := big.NewInt(bOrig.Int64())
 	g := big.NewInt(1)
 
-	isBool := func(num int64) bool {return num % 2 == 0}
+	isEven := func(num int64) bool {return num % 2 == 0}
 	calcT := func(a, b int64) *big.Int {
 		t := (a-b)/2
 		if t < 0 {
@@ -41,13 +41,13 @@ func BinaryEuclidGCD(aOrig, bOrig *big.Int) *big.Int {
 	two := big.NewInt(2)
 
 	for a.Int64() > 0 {
-		if isBool(a.Int64()) && isBool(b.Int64()) {
+		if isEven(a.Int64()) && isEven(b.Int64()) {
 			a.Div(a, two)
 			b.Div(b, two)
 			g.Mul(g, two)
-		} else if isBool(a.Int64()) && !isBool(b.Int64()){
+		} else if isEven(a.Int64()) && !isEven(b.Int64()){
 			a.Div(a, two)
-		} else if !isBool(a.Int64()) && isBool(b.Int64()) {
+		} else if !isEven(a.Int64()) && isEven(b.Int64()) {
 			b.Div(b, two)
 		} else {
 			t := calcT(a.Int64(), b.Int64())
