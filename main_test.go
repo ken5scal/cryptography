@@ -10,7 +10,7 @@ var a = big.NewInt(1024)
 var b = big.NewInt(15000)
 var expected = big.NewInt(8)
 
-var testSets = []struct {
+var extendedEuclidTestSets = []struct {
 	a, b, expectedX, expectedY *big.Int
 } {
 	{big.NewInt(79), big.NewInt(176), big.NewInt(-49), big.NewInt(22)},
@@ -40,8 +40,8 @@ func TestBadBinaryEuclidGCD(t *testing.T) {
 }
 
 func TestExtendedPublicGCD(t *testing.T) {
-	for _, tt := range testSets {
-		x, y, r, err := ExtendedPublicGCD(tt.a, tt.b)
+	for _, tt := range extendedEuclidTestSets {
+		x, y, r, err := ExtendedEuclidGCD(tt.a, tt.b)
 		if err != nil {
 			t.Errorf("Error: %v\n", err)
 			return

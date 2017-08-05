@@ -25,7 +25,7 @@ func main() {
 
 	a = big.NewInt(2793)
 	b = big.NewInt(828)
-	x, y, g, _ := ExtendedPublicGCD(a, b)
+	x, y, g, _ := ExtendedEuclidGCD(a, b)
 	fmt.Println(x, y, g)
 }
 
@@ -119,7 +119,7 @@ func Gcd(aOrig, bOrig *big.Int) (*big.Int, error) {
 	return g, nil
 }
 
-func ExtendedPublicGCD(aOrig, bOrig *big.Int) (x, y, r *big.Int, err error) {
+func ExtendedEuclidGCD(aOrig, bOrig *big.Int) (x, y, r *big.Int, err error) {
 	a, b := CopyData(aOrig, bOrig)
 	if a.Sign() <= 0 || b.Sign() <= 0 {
 		return nil, nil, nil, errors.New("Input must be positive number")
