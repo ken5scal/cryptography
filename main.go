@@ -26,7 +26,7 @@ func main() {
 // BinaryEuclidGCD calculated gcd(最大公約数) using Binaryユークリッド互除法アルゴリズム
 func BinaryEuclidGCD(aOrig, bOrig *big.Int) (*big.Int, error) {
 	var zero big.Int
-	if aOrig.Cmp(&zero) != 1 || bOrig.Cmp(&zero ) != 1 {
+	if aOrig.Cmp(&zero) != 1 || bOrig.Cmp(&zero) != 1 {
 		return nil, errors.New("Arguments must be positive number.")
 	}
 
@@ -85,7 +85,10 @@ func EuclidGCD(aOrig, bOrig *big.Int) *big.Int {
 }
 
 // 試行 割り算
-func Gcd(a, b *big.Int) (*big.Int, error) {
+func Gcd(aOrig, bOrig *big.Int) (*big.Int, error) {
+	// Making sure immutability
+	a := big.NewInt(aOrig.Int64())
+	b := big.NewInt(bOrig.Int64())
 	if a.Sign() <= 0 || b.Sign() <= 0 {
 		return nil, errors.New("Input must be positive number")
 	}
