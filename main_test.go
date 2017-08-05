@@ -38,7 +38,7 @@ func TestExtendedPublicGCD(t *testing.T) {
 	expectedX := big.NewInt(67)
 	expectedY := big.NewInt(-226)
 	expectedR := big.NewInt(3)
-	
+
 	x, y, r, err := ExtendedPublicGCD(a, b)
 	if err != nil {
 		t.Errorf("Error: %v\n", err)

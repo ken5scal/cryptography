@@ -24,8 +24,8 @@ func main() {
 
 	a = big.NewInt(2793)
 	b = big.NewInt(828)
-	x, y, g, _ := ExtendedPublicGCD(a,b)
-	fmt.Println(x,y,g)
+	x, y, g, _ := ExtendedPublicGCD(a, b)
+	fmt.Println(x, y, g)
 }
 
 // BinaryEuclidGCD calculated gcd(最大公約数) using Binaryユークリッド互除法アルゴリズム
@@ -123,22 +123,23 @@ func ExtendedPublicGCD(aOrig, bOrig *big.Int) (x, y, r *big.Int, err error) {
 	x0 := big.NewInt(1)
 	x1 := big.NewInt(0)
 	y0 := big.NewInt(0)
-	y1:= big.NewInt(1)
+	y1 := big.NewInt(1)
 	r0 := big.NewInt(a.Int64())
-	r1 := big.NewInt(b.Int64())
+	r1 := &big.NewInt(b.Int64())
 	q2 := big.NewInt(0)
 	r2 := big.NewInt(0)
 	x2 := big.NewInt(0)
 	y2 := big.NewInt(0)
 
-	for j := 0; r1.Int64() != 0 ; j ++ {
+	for j := 0; r1.Int64() != 0; j++ {
 		q2.Div(r0, r1)
 		r2.Mod(r0, r1)
 
-		x2.SetInt64(x0.Int64() - q2.Int64() * x1.Int64())
-		y2.SetInt64(y0.Int64() - q2.Int64() * y1.Int64())
+		x2.SetInt64(x0.Int64() - q2.Int64()*x1.Int64())
+		y2.SetInt64(y0.Int64() - q2.Int64()*y1.Int64())
 
 		r0.SetInt64(r1.Int64())
+
 		r1.SetInt64(r2.Int64())
 		x0.SetInt64(x1.Int64())
 		y0.SetInt64(y1.Int64())
@@ -148,7 +149,7 @@ func ExtendedPublicGCD(aOrig, bOrig *big.Int) (x, y, r *big.Int, err error) {
 
 	r, err = BinaryEuclidGCD(a, b)
 	if err != nil {
-		return nil,nil,nil,err
+		return nil, nil, nil, err
 	}
 
 	return x0, y0, r, nil
