@@ -125,6 +125,7 @@ func ExtendedPublicGCD(aOrig, bOrig *big.Int) (x, y, r *big.Int, err error) {
 		return nil, nil, nil, errors.New("Input must be positive number")
 	}
 
+	// Initializing
 	xPrev := big.NewInt(1)
 	yPrev := big.NewInt(0)
 	rPrev := big.NewInt(a.Int64())
@@ -145,7 +146,6 @@ func ExtendedPublicGCD(aOrig, bOrig *big.Int) (x, y, r *big.Int, err error) {
 		xNext.Sub(xPrev, xNext.Mul(qNext, x))
 		yNext.Sub(yPrev, yNext.Mul(qNext, y))
 
-		// Could Have Done Better.
 		xPrev.Set(x); yPrev.Set(y); rPrev.Set(r)
 		x.Set(xNext); y.Set(yNext); r.Set(rNext)
 	}

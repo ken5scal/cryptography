@@ -10,6 +10,13 @@ var a = big.NewInt(1024)
 var b = big.NewInt(15000)
 var expected = big.NewInt(8)
 
+var testSets = []struct {
+	a, b, expectedX, expectedY *big.Int
+} {
+	{big.NewInt(79), big.NewInt(176), big.NewInt(-49), big.NewInt(22)},
+	{big.NewInt(2793), big.NewInt(828), big.NewInt(67), big.NewInt(-226)},
+}
+
 func TestGcd(t *testing.T) {
 	actual, _ := Gcd(a, b)
 	if expected.Cmp(actual) != 0 {
@@ -33,24 +40,21 @@ func TestBadBinaryEuclidGCD(t *testing.T) {
 }
 
 func TestExtendedPublicGCD(t *testing.T) {
-	a := big.NewInt(2793)
-	b := big.NewInt(828)
-	expectedX := big.NewInt(67)
-	expectedY := big.NewInt(-226)
-	expectedR, _ := BinaryEuclidGCD(a,b)
+	for _, tt := range testSets {
+		x, y, r, err := ExtendedPublicGCD(tt.a, tt.b)
+		if err != nil {
+			t.Errorf("Error: %v\n", err)
+			return
+		}
+		expectedR, _ := BinaryEuclidGCD(tt.a, tt.b)
 
-	x, y, r, err := ExtendedPublicGCD(a, b)
-	if err != nil {
-		t.Errorf("Error: %v\n", err)
-		return
-	}
-
-	if expectedX.Cmp(x) != 0 {
-		t.Error(fmt.Sprintf("expected x as %v, but got %v", expectedX, x))
-	} else if expectedY.Cmp(y) != 0 {
-		t.Error(fmt.Sprintf("expected y as %v, but got %v", expectedY, y))
-	} else if expectedR.Cmp(r) != 0 {
-		t.Error(fmt.Sprintf("expected r as %v, but got %v", expectedR, r))
+		if tt.expectedX.Cmp(x) != 0 {
+			t.Error(fmt.Sprintf("expected x as %v, but got %v", tt.expectedX, x))
+		} else if tt.expectedY.Cmp(y) != 0 {
+			t.Error(fmt.Sprintf("expected y as %v, but got %v", tt.expectedY, y))
+		} else if expectedR.Cmp(r) != 0 {
+			t.Error(fmt.Sprintf("expected r as %v, but got %v", expectedR, r))
+		}
 	}
 }
 
