@@ -19,12 +19,17 @@ func main() {
 
 	a = big.NewInt(646)
 	b = big.NewInt(408)
-	g = BinaryEuclidGCD(a, b)
+	g, _ = BinaryEuclidGCD(a, b)
 	fmt.Println(g)
 }
 
 // BinaryEuclidGCD calculated gcd(最大公約数) using Binaryユークリッド互除法アルゴリズム
-func BinaryEuclidGCD(aOrig, bOrig *big.Int) *big.Int {
+func BinaryEuclidGCD(aOrig, bOrig *big.Int) (*big.Int, error) {
+	var zero big.Int
+	if aOrig.Cmp(&zero) != 1 || bOrig.Cmp(&zero ) != 1 {
+		return nil, errors.New("Arguments must be positive number.")
+	}
+
 	// Making sure immutability
 	a := big.NewInt(aOrig.Int64())
 	b := big.NewInt(bOrig.Int64())
@@ -59,7 +64,7 @@ func BinaryEuclidGCD(aOrig, bOrig *big.Int) *big.Int {
 		}
 	}
 
-	return g.Mul(g, b)
+	return g.Mul(g, b), nil
 }
 
 // EuclidGCD calculated gcd(最大公約数) using ユークリッド互除法アルゴリズム
