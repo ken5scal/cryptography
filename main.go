@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
-
 )
 
 func main() {
@@ -139,18 +138,52 @@ func ExtendedEuclidGCD(aOrig, bOrig *big.Int) (x, y, r *big.Int, err error) {
 	rNext := big.NewInt(0)
 	qNext := big.NewInt(0)
 
-	for j := 0; r.Int64() != 0; j++ {
+	for r.Int64() != 0 {
 		qNext.Div(rPrev, r)
 		rNext.Mod(rPrev, r)
 
 		xNext.Sub(xPrev, xNext.Mul(qNext, x))
 		yNext.Sub(yPrev, yNext.Mul(qNext, y))
 
-		xPrev.Set(x); yPrev.Set(y); rPrev.Set(r)
-		x.Set(xNext); y.Set(yNext); r.Set(rNext)
+		xPrev.Set(x)
+		yPrev.Set(y)
+		rPrev.Set(r)
+		x.Set(xNext)
+		y.Set(yNext)
+		r.Set(rNext)
 	}
 
 	return xPrev, yPrev, rPrev, nil
+}
+
+func ModInverseMain(e, l *big.Int) (*big.Int, error) {
+	if e.Sign() <= 0 || l.Sign() <= 0 {
+		return nil, errors.New("Input must be positive number")
+	}
+
+	dPrev := big.NewInt(1)
+	rPrev := big.NewInt(e.Int64())
+
+	d := big.NewInt(0)
+	r := big.NewInt(l.Int64())
+
+	dNext := big.NewInt(0)
+	rNext := big.NewInt(0)
+	xNext := big.NewInt(0)
+
+	for r.Int64() != 0 {
+		dNext.Div(rPrev, r)
+		rNext.Mod(rPrev, r)
+
+		xNext.Sub(dPrev, xNext.Mul(dNext, d))
+
+		dPrev.Set(d)
+		d.Set(xNext)
+		rPrev.Set(r)
+		r.Set(rNext)
+	}
+
+	return dPrev.Mod(dPrev, l), nil
 }
 
 func CopyData(aOrig, bOrig *big.Int) (a, b *big.Int) {

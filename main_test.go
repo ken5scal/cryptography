@@ -12,7 +12,7 @@ var expected = big.NewInt(8)
 
 var extendedEuclidTestSets = []struct {
 	a, b, expectedX, expectedY *big.Int
-} {
+}{
 	{big.NewInt(79), big.NewInt(176), big.NewInt(-49), big.NewInt(22)},
 	{big.NewInt(2793), big.NewInt(828), big.NewInt(67), big.NewInt(-226)},
 }
@@ -39,7 +39,7 @@ func TestBadBinaryEuclidGCD(t *testing.T) {
 	}
 }
 
-func TestExtendedPublicGCD(t *testing.T) {
+func TestExtendedEuclidGCD(t *testing.T) {
 	for _, tt := range extendedEuclidTestSets {
 		x, y, r, err := ExtendedEuclidGCD(tt.a, tt.b)
 		if err != nil {
@@ -55,6 +55,19 @@ func TestExtendedPublicGCD(t *testing.T) {
 		} else if expectedR.Cmp(r) != 0 {
 			t.Error(fmt.Sprintf("expected r as %v, but got %v", expectedR, r))
 		}
+	}
+}
+
+func TestModInverseMain(t *testing.T) {
+	expected := big.NewInt(127)
+	d, err := ModInverseMain(big.NewInt(79), big.NewInt(176))
+
+	if err != nil {
+		t.Errorf("Error: %v\n", err)
+		return
+	}
+	if expected.Cmp(d) != 0 {
+		t.Error(fmt.Sprintf("expected d as %v, but got %v", expected, d))
 	}
 }
 
