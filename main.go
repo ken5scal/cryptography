@@ -138,6 +138,9 @@ func ExtendedPublicGCD(aOrig, bOrig *big.Int) (x, y, r *big.Int, err error) {
 
 		x2.SetInt64(x0.Int64() - q2.Int64() * x1.Int64())
 		y2.SetInt64(y0.Int64() - q2.Int64() * y1.Int64())
+
+		x1.SetInt64(x0.Int64())
+		y1.SetInt64(y1.Int64())
 	}
 
 	r, err = BinaryEuclidGCD(x0, y0)

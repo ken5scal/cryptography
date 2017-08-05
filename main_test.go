@@ -32,6 +32,27 @@ func TestBadBinaryEuclidGCD(t *testing.T) {
 	}
 }
 
+func TestExtendedPublicGCD(t *testing.T) {
+	a := big.NewInt(2793)
+	b := big.NewInt(828)
+	expectedX := big.NewInt(67)
+	expectedY := big.NewInt(-226)
+	expectedR := big.NewInt(3)
+	
+	x, y, r, err := ExtendedPublicGCD(a, b)
+	if err != nil {
+		t.Errorf("Error: %v\n", err)
+	}
+
+	if expectedX.Cmp(x) != 0 {
+		t.Error(fmt.Sprintf("expected x as %v, but got %v", expectedX, x))
+	} else if expectedY.Cmp(y) != 0 {
+		t.Error(fmt.Sprintf("expected y as %v, but got %v", expectedY, y))
+	} else if expectedR.Cmp(r) != 0 {
+		t.Error(fmt.Sprintf("expected r as %v, but got %v", expectedR, r))
+	}
+}
+
 func BenchmarkGcd_normal(bench *testing.B) {
 	for i := 0; i < 5000; i++ {
 		Gcd(a, b)
