@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+
 )
 
 func main() {
@@ -124,34 +125,32 @@ func ExtendedPublicGCD(aOrig, bOrig *big.Int) (x, y, r *big.Int, err error) {
 		return nil, nil, nil, errors.New("Input must be positive number")
 	}
 
-	x0 := big.NewInt(1)
-	x1 := big.NewInt(0)
-	y0 := big.NewInt(0)
-	y1 := big.NewInt(1)
-	r0 := big.NewInt(a.Int64())
-	r1 := big.NewInt(b.Int64())
-	q2 := big.NewInt(0)
-	r2 := big.NewInt(0)
-	x2 := big.NewInt(0)
-	y2 := big.NewInt(0)
+	xPrev := big.NewInt(1)
+	yPrev := big.NewInt(0)
+	rPrev := big.NewInt(a.Int64())
 
-	for j := 0; r1.Int64() != 0; j++ {
-		q2.Div(r0, r1)
-		r2.Mod(r0, r1)
+	x = big.NewInt(0)
+	y = big.NewInt(1)
+	r = big.NewInt(b.Int64())
 
-		x2.SetInt64(x0.Int64() - q2.Int64()*x1.Int64())
-		y2.SetInt64(y0.Int64() - q2.Int64()*y1.Int64())
+	xNext := big.NewInt(0)
+	yNext := big.NewInt(0)
+	rNext := big.NewInt(0)
+	qNext := big.NewInt(0)
+
+	for j := 0; r.Int64() != 0; j++ {
+		qNext.Div(rPrev, r)
+		rNext.Mod(rPrev, r)
+
+		xNext.Sub(xPrev, xNext.Mul(qNext, x))
+		yNext.Sub(yPrev, yNext.Mul(qNext, y))
 
 		// Could Have Done Better.
-		r0.SetInt64(r1.Int64())
-		r1.SetInt64(r2.Int64())
-		x0.SetInt64(x1.Int64())
-		y0.SetInt64(y1.Int64())
-		x1.SetInt64(x2.Int64())
-		y1.SetInt64(y2.Int64())
+		xPrev.Set(x); yPrev.Set(y); rPrev.Set(r)
+		x.Set(xNext); y.Set(yNext); r.Set(rNext)
 	}
 
-	return x0, y0, r0, nil
+	return xPrev, yPrev, rPrev, nil
 }
 
 func CopyData(aOrig, bOrig *big.Int) (a, b *big.Int) {
