@@ -120,6 +120,10 @@ func Gcd(aOrig, bOrig *big.Int) (*big.Int, error) {
 
 func ExtendedPublicGCD(aOrig, bOrig *big.Int) (x, y, r *big.Int, err error) {
 	a, b := CopyData(aOrig, bOrig)
+	if a.Sign() <= 0 || b.Sign() <= 0 {
+		return nil, nil, nil, errors.New("Input must be positive number")
+	}
+
 	x0 := big.NewInt(1)
 	x1 := big.NewInt(0)
 	y0 := big.NewInt(0)
