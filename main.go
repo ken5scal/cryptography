@@ -1,9 +1,9 @@
 package main
 
 import (
-	"math/big"
-	"fmt"
 	"errors"
+	"fmt"
+	"math/big"
 )
 
 func main() {
@@ -35,9 +35,9 @@ func BinaryEuclidGCD(aOrig, bOrig *big.Int) (*big.Int, error) {
 	b := big.NewInt(bOrig.Int64())
 	g := big.NewInt(1)
 
-	isEven := func(num int64) bool {return num % 2 == 0}
+	isEven := func(num int64) bool { return num%2 == 0 }
 	calcT := func(a, b int64) *big.Int {
-		t := (a-b)/2
+		t := (a - b) / 2
 		if t < 0 {
 			t *= -1
 		}
@@ -50,7 +50,7 @@ func BinaryEuclidGCD(aOrig, bOrig *big.Int) (*big.Int, error) {
 			a.Div(a, two)
 			b.Div(b, two)
 			g.Mul(g, two)
-		} else if isEven(a.Int64()) && !isEven(b.Int64()){
+		} else if isEven(a.Int64()) && !isEven(b.Int64()) {
 			a.Div(a, two)
 		} else if !isEven(a.Int64()) && isEven(b.Int64()) {
 			b.Div(b, two)
@@ -73,7 +73,7 @@ func EuclidGCD(aOrig, bOrig *big.Int) *big.Int {
 	a := big.NewInt(aOrig.Int64())
 	b := big.NewInt(bOrig.Int64())
 
-	for r := big.NewInt(0);; {
+	for r := big.NewInt(0); ; {
 		r.Mod(a, b)
 		if r.Int64() == 0 {
 			return b
@@ -103,7 +103,7 @@ func Gcd(aOrig, bOrig *big.Int) (*big.Int, error) {
 
 	n := big.NewInt(2)
 	for n.Cmp(b) <= 0 {
-		for  {
+		for {
 			if tmp.Mod(a, n).Cmp(big.NewInt(0)) == 0 &&
 				tmp.Mod(b, n).Cmp(big.NewInt(0)) == 0 {
 				g.Mul(g, n)

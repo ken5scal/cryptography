@@ -1,9 +1,9 @@
 package main
 
 import (
-	"testing"
-	"math/big"
 	"fmt"
+	"math/big"
+	"testing"
 )
 
 var a = big.NewInt(1024)
