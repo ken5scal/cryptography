@@ -42,6 +42,7 @@ func TestExtendedPublicGCD(t *testing.T) {
 	x, y, r, err := ExtendedPublicGCD(a, b)
 	if err != nil {
 		t.Errorf("Error: %v\n", err)
+		return
 	}
 
 	if expectedX.Cmp(x) != 0 {
