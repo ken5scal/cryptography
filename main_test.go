@@ -37,7 +37,7 @@ func TestExtendedPublicGCD(t *testing.T) {
 	b := big.NewInt(828)
 	expectedX := big.NewInt(67)
 	expectedY := big.NewInt(-226)
-	expectedR := big.NewInt(3)
+	expectedR, _ := BinaryEuclidGCD(a,b)
 
 	x, y, r, err := ExtendedPublicGCD(a, b)
 	if err != nil {

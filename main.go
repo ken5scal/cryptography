@@ -151,12 +151,7 @@ func ExtendedPublicGCD(aOrig, bOrig *big.Int) (x, y, r *big.Int, err error) {
 		y1.SetInt64(y2.Int64())
 	}
 
-	r, err = BinaryEuclidGCD(a, b)
-	if err != nil {
-		return nil, nil, nil, err
-	}
-
-	return x0, y0, r, nil
+	return x0, y0, r0, nil
 }
 
 func CopyData(aOrig, bOrig *big.Int) (a, b *big.Int) {
