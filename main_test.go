@@ -6,9 +6,9 @@ import (
 	"fmt"
 )
 
-var a = big.NewInt(135632)
-var b = big.NewInt(44461)
-var expected = big.NewInt(173)
+var a = big.NewInt(1024)
+var b = big.NewInt(15000)
+var expected = big.NewInt(8)
 
 func TestGcd(t *testing.T) {
 	actual, _ := Gcd(a, b)
@@ -30,4 +30,9 @@ func TestBadBinaryEuclidGCD(t *testing.T) {
 	if actual != nil && err == nil {
 		t.Error("actual must be null value. Error must not be a null value")
 	}
+}
+
+func BenchmarkBinaryEuclidGCD(bench *testing.B) {
+	bench.ResetTimer()
+	BinaryEuclidGCD(a,b)
 }

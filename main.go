@@ -17,8 +17,8 @@ func main() {
 	g = EuclidGCD(a, b)
 	fmt.Println(g)
 
-	a = big.NewInt(646)
-	b = big.NewInt(408)
+	a = big.NewInt(1024)
+	b = big.NewInt(15000)
 	g, _ = BinaryEuclidGCD(a, b)
 	fmt.Println(g)
 }
