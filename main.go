@@ -30,9 +30,7 @@ func BinaryEuclidGCD(aOrig, bOrig *big.Int) (*big.Int, error) {
 		return nil, errors.New("Arguments must be positive number.")
 	}
 
-	// Making sure immutability
-	a := big.NewInt(aOrig.Int64())
-	b := big.NewInt(bOrig.Int64())
+	a, b := CopyData(aOrig, bOrig)
 	g := big.NewInt(1)
 
 	isEven := func(num int64) bool { return num%2 == 0 }
@@ -69,9 +67,7 @@ func BinaryEuclidGCD(aOrig, bOrig *big.Int) (*big.Int, error) {
 
 // EuclidGCD calculated gcd(最大公約数) using ユークリッド互除法アルゴリズム
 func EuclidGCD(aOrig, bOrig *big.Int) *big.Int {
-	// Making sure immutability
-	a := big.NewInt(aOrig.Int64())
-	b := big.NewInt(bOrig.Int64())
+	a, b := CopyData(aOrig, bOrig)
 
 	for r := big.NewInt(0); ; {
 		r.Mod(a, b)
@@ -86,9 +82,7 @@ func EuclidGCD(aOrig, bOrig *big.Int) *big.Int {
 
 // 試行 割り算
 func Gcd(aOrig, bOrig *big.Int) (*big.Int, error) {
-	// Making sure immutability
-	a := big.NewInt(aOrig.Int64())
-	b := big.NewInt(bOrig.Int64())
+	a, b := CopyData(aOrig, bOrig)
 	if a.Sign() <= 0 || b.Sign() <= 0 {
 		return nil, errors.New("Input must be positive number")
 	}
@@ -117,4 +111,22 @@ func Gcd(aOrig, bOrig *big.Int) (*big.Int, error) {
 	}
 
 	return g, nil
+}
+
+func ExtendedPublicGCD(aOrig, bOrig *big.Int) (x, y int, err error) {
+	a, b := CopyData(aOrig, bOrig)
+	x0 = 1
+	x1 = 0
+	y0 = 1
+	y1 = 1
+	r0 = a
+	r1 = b
+	j = 0
+}
+
+func CopyData(aOrig, bOrig *big.Int) (a, b *big.Int) {
+	// Making sure immutability
+	a = big.NewInt(aOrig.Int64())
+	b = big.NewInt(bOrig.Int64())
+	return a, b
 }
