@@ -60,7 +60,7 @@ func TestExtendedEuclidGCD(t *testing.T) {
 
 func TestModInverseMain(t *testing.T) {
 	expected := big.NewInt(127)
-	d, err := ModInverseMain(big.NewInt(79), big.NewInt(176))
+	d, err := ModInverse(big.NewInt(79), big.NewInt(176))
 
 	if err != nil {
 		t.Errorf("Error: %v\n", err)
