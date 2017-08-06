@@ -3,10 +3,11 @@ package main
 import (
 	"errors"
 	"math/big"
+	"fmt"
 )
 
 /*
-RSA Encryption/Decryption is done by Modular Exponential Calculation
+RSA Encryption/Decryption is done by Modular Exponential Calculation(MEC)
 S = a^m mod N
  Encryption:
   - S: Cipher Text
@@ -20,8 +21,44 @@ S = a^m mod N
   - N: Public Modulus(N)
 */
 
-// ModPow2wary calculates
-func ModPow2wary(a, m, N, w *big.Int) (*big.Int, error) {
+func GetWindow(m *big.Int, w int) {
+	for j := (m.BitLen() + w -1)/w - 1; j >= 0; j-- {
+		mjw := 0
+		for i := w - 1; i >= 0 ; i-- {
+			mjw <<= 1
+			if m.Bit(j * w + i) != 0 {
+				mjw |= 1
+			}
+		}
+		fmt.Println(mjw)
+	}
+}
+
+// ModPow2wary is another method to do MEC using Window(2w-ary) ModPow
+func ModPow2wary(a, m, N *big.Int, w int) (*big.Int, error) {
+	if N.Sign() <= 0 || m.Sign() <= 0 {
+		return nil, errors.New("Input must be positive number")
+	}
+
+	table := make([]*big.Int, 2 ^ w)
+	table[0] = big.NewInt(0)
+	for k := 1; k < 2 ^ w; k++ {
+		table[k].Mul(table[k-1], a).Mod(table[k], N)
+	}
+
+	S := big.NewInt(1)
+	for j := m.BitLen()/w - 1; j >= 0; j-- {
+		for i := 0; i < w; i++ {
+			S.Mul(S, S).Mod(S, N)
+		}
+
+		for i := w - 1; i >=0; i-- {
+			if m.Bit(j) != 0 {
+				//S.Mul(S, a).Mul(S, hoge).Mod(S, N)
+			}
+		}
+	}
+
 	return nil, nil
 }
 

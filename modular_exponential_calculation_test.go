@@ -6,6 +6,11 @@ import (
 	"testing"
 )
 
+func TestGetWindow(t *testing.T) {
+	m := big.NewInt(1501)
+	GetWindow(m, 3)
+}
+
 func TestModPow2wary(t *testing.T) {
 	expectedS := big.NewInt(0)
 
@@ -13,7 +18,7 @@ func TestModPow2wary(t *testing.T) {
 	m := big.NewInt(13)
 	n := big.NewInt(19)
 	expectedS.Exp(a, m, n)
-	s, err := ModPow2wary(a, m, n, big.NewInt(3))
+	s, err := ModPow2wary(a, m, n, 3)
 	if err != nil {
 		t.Errorf("Error: %v\n", err)
 		return
