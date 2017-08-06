@@ -20,17 +20,18 @@ S = a^m mod N
 */
 
 // ModPow calculates the most fundamental binary function.
-func ModPow(a, N, m *big.Int) (S *big.Int, err error) {
+func ModPow(a, m, N *big.Int) (*big.Int, error) {
 	if N.Sign() <= 0 || m.Sign() <= 0 {
-		return S, errors.New("Input must be positive number")
+		return nil, errors.New("Input must be positive number")
 	}
 
-	S = big.NewInt(1)
+	S := big.NewInt(1)
 
 	for j := m.BitLen() - 1; j >= 0; j-- {
-		S.ModSqrt(S, N)
+		S.Mul(S, S).Mod(S, N)
+
 		if m.Bit(j) == 1 {
-			S.Div(S, a).Mod(S, N)
+			S.Mul(S, a).Mod(S, N)
 		}
 	}
 	return S, nil

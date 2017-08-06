@@ -7,10 +7,12 @@ import (
 )
 
 func TestModPow(t *testing.T) {
+	expectedS := big.NewInt(0)
+
 	a := big.NewInt(10)
 	m := big.NewInt(13)
 	n := big.NewInt(19)
-	expectedS := a.Exp(a, m, n)
+	expectedS.Exp(a, m, n)
 
 	s, err := ModPow(a,m,n)
 	if err != nil {
@@ -18,6 +20,6 @@ func TestModPow(t *testing.T) {
 		return
 	}
 	if expectedS.Cmp(s) != 0 {
-		t.Error(fmt.Sprintf("expected %v, but got %v", expected, s))
+		t.Error(fmt.Sprintf("expected %v, but got %v", expectedS, s))
 	}
 }
