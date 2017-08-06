@@ -1,9 +1,9 @@
 package main
 
 import (
-	"testing"
-	"math/big"
 	"fmt"
+	"math/big"
+	"testing"
 )
 
 func TestModPow(t *testing.T) {
@@ -14,7 +14,7 @@ func TestModPow(t *testing.T) {
 	n := big.NewInt(19)
 	expectedS.Exp(a, m, n)
 
-	s, err := ModPow(a,m,n)
+	s, err := ModPow(a, m, n)
 	if err != nil {
 		t.Errorf("Error: %v\n", err)
 		return

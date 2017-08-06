@@ -126,9 +126,15 @@ func ExtendedEuclidGCD(aOrig, bOrig *big.Int) (x, y, r *big.Int, err error) {
 	}
 
 	// Initializing
-	xPrev := big.NewInt(1); x = big.NewInt(0); xNext := big.NewInt(0)
-	yPrev := big.NewInt(0); y = big.NewInt(1); yNext := big.NewInt(0)
-	rPrev := big.NewInt(a.Int64()); r = big.NewInt(b.Int64()) ;rNext := big.NewInt(0)
+	xPrev := big.NewInt(1)
+	x = big.NewInt(0)
+	xNext := big.NewInt(0)
+	yPrev := big.NewInt(0)
+	y = big.NewInt(1)
+	yNext := big.NewInt(0)
+	rPrev := big.NewInt(a.Int64())
+	r = big.NewInt(b.Int64())
+	rNext := big.NewInt(0)
 	qNext := big.NewInt(0)
 
 	for r.Int64() != 0 {
@@ -138,9 +144,14 @@ func ExtendedEuclidGCD(aOrig, bOrig *big.Int) (x, y, r *big.Int, err error) {
 		xNext.Sub(xPrev, xNext.Mul(qNext, x))
 		yNext.Sub(yPrev, yNext.Mul(qNext, y))
 
-		xPrev.Set(x); x.Set(xNext)
-		yPrev.Set(y); y.Set(yNext)
-		rPrev.Set(r); r.Set(rNext)
+		xPrev.Set(x)
+		x.Set(xNext)
+
+		yPrev.Set(y)
+		y.Set(yNext)
+
+		rPrev.Set(r)
+		r.Set(rNext)
 	}
 
 	return xPrev, yPrev, rPrev, nil
@@ -152,8 +163,14 @@ func ModInverse(e, l *big.Int) (*big.Int, error) {
 		return nil, errors.New("Input must be positive number")
 	}
 
-	dPrev := big.NewInt(1);      d := big.NewInt(0);      dNext := big.NewInt(0)
-	rPrev := big.NewInt(e.Int64()); r := big.NewInt(l.Int64()); rNext := big.NewInt(0)
+	dPrev := big.NewInt(1)
+	d := big.NewInt(0)
+	dNext := big.NewInt(0)
+
+	rPrev := big.NewInt(e.Int64())
+	r := big.NewInt(l.Int64())
+	rNext := big.NewInt(0)
+
 	xNext := big.NewInt(0)
 
 	for r.Int64() != 0 {
@@ -162,8 +179,11 @@ func ModInverse(e, l *big.Int) (*big.Int, error) {
 
 		xNext.Sub(dPrev, xNext.Mul(dNext, d))
 
-		dPrev.Set(d); d.Set(xNext)
-		rPrev.Set(r); r.Set(rNext)
+		dPrev.Set(d)
+		d.Set(xNext)
+
+		rPrev.Set(r)
+		r.Set(rNext)
 	}
 
 	return dPrev.Mod(dPrev, l), nil

@@ -1,9 +1,10 @@
 package main
 
 import (
-	"math/big"
 	"errors"
+	"math/big"
 )
+
 /*
 RSA Encryption/Decryption is done by Modular Exponential Calculation
 S = a^m mod N
