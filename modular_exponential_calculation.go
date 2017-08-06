@@ -20,6 +20,11 @@ S = a^m mod N
   - N: Public Modulus(N)
 */
 
+// ModPow2wary calculates
+func ModPow2wary(a, m, N, w *big.Int) (*big.Int, error) {
+	return nil, nil
+}
+
 // ModPow calculates the most fundamental binary function.
 func ModPow(a, m, N *big.Int) (*big.Int, error) {
 	if N.Sign() <= 0 || m.Sign() <= 0 {
