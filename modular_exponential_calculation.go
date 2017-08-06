@@ -4,6 +4,7 @@ import (
 	"errors"
 	"math/big"
 	"fmt"
+	"strconv"
 )
 
 /*
@@ -23,11 +24,15 @@ S = a^m mod N
 
 func GetWindow(m *big.Int, w int) {
 	for j := (m.BitLen() + w -1)/w - 1; j >= 0; j-- {
-		mjw := 0
+		mjw := int64(0)
 		for i := w - 1; i >= 0 ; i-- {
+			fmt.Printf("Before <<=: %v\n", strconv.FormatInt(mjw, 2))
 			mjw <<= 1
+			fmt.Printf("After <<=: %v\n", strconv.FormatInt(mjw, 2))
 			if m.Bit(j * w + i) != 0 {
+				fmt.Printf("Before |=: %v\n", strconv.FormatInt(mjw, 2))
 				mjw |= 1
+				fmt.Printf("After |=: %v\n", strconv.FormatInt(mjw, 2))
 			}
 		}
 		fmt.Println(mjw)
