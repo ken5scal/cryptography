@@ -2,9 +2,9 @@ package main
 
 import (
 	"errors"
-	"math/big"
 	"fmt"
 	"math"
+	"math/big"
 )
 
 /*
@@ -23,11 +23,11 @@ S = a^m mod N
 */
 
 func getWindow(m *big.Int, w int) (mjw int64) {
-	for j := (m.BitLen() + w - 1)/w - 1; j >= 0; j-- {
+	for j := (m.BitLen()+w-1)/w - 1; j >= 0; j-- {
 		mjw = int64(0)
-		for i := w - 1; i >= 0 ; i-- {
+		for i := w - 1; i >= 0; i-- {
 			mjw <<= 1
-			if m.Bit(j * w + i) != 0 {
+			if m.Bit(j*w+i) != 0 {
 				mjw |= 1
 			}
 		}
@@ -42,8 +42,7 @@ func ModPow2wary(a, m, N *big.Int, w int) (*big.Int, error) {
 		return nil, errors.New("Input must be positive number")
 	}
 
-
-	length := int64(math.Pow(2,float64(w)))
+	length := int64(math.Pow(2, float64(w)))
 	table := make([]*big.Int, length)
 	table[0] = big.NewInt(1)
 	for k := 1; k < int(length); k++ {
@@ -51,15 +50,15 @@ func ModPow2wary(a, m, N *big.Int, w int) (*big.Int, error) {
 	}
 
 	S := big.NewInt(1)
-	for j := (m.BitLen() + w - 1)/w - 1; j >= 0; j-- {
+	for j := (m.BitLen()+w-1)/w - 1; j >= 0; j-- {
 		for i := 0; i < w; i++ {
 			S.Mul(S, S).Mod(S, N)
 		}
 
 		mjw := int64(0)
-		for i := w - 1; i >= 0 ; i-- {
+		for i := w - 1; i >= 0; i-- {
 			mjw <<= 1
-			if m.Bit(j * w + i) != 0 {
+			if m.Bit(j*w+i) != 0 {
 				mjw |= 1
 			}
 		}
