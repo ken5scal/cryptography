@@ -53,7 +53,7 @@ func ModPow2wary(a, m, N *big.Int, w int) (*big.Int, error) {
 	for k := 1; k < int(length); k++ {
 		hoge := table[k-1].Int64() * a.Int64() % N.Int64()
 		table[k] = big.NewInt(hoge)
-		fmt.Println(table[k-1], table[k])
+		fmt.Println(table[k-1], table[k], hoge)
 	}
 	fmt.Println(len(table))
 
@@ -78,7 +78,7 @@ func ModPow2wary(a, m, N *big.Int, w int) (*big.Int, error) {
 		S.Mul(S, table[mjw]).Mod(S, N)
 	}
 
-	return nil, nil
+	return S, nil
 }
 
 // ModPow calculates the most fundamental binary function.
