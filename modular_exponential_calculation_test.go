@@ -8,7 +8,7 @@ import (
 
 func TestGetWindow(t *testing.T) {
 	m := big.NewInt(1501)
-	fmt.Println(GetWindow(m, 3))
+	fmt.Println(getWindow(m, 3))
 }
 
 func TestModPow2wary(t *testing.T) {
