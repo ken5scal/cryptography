@@ -4,7 +4,6 @@ import (
 	"errors"
 	"math/big"
 	"fmt"
-	"strconv"
 )
 
 /*
@@ -22,21 +21,22 @@ S = a^m mod N
   - N: Public Modulus(N)
 */
 
-func GetWindow(m *big.Int, w int) {
-	for j := (m.BitLen() + w -1)/w - 1; j >= 0; j-- {
-		mjw := int64(0)
+func GetWindow(m *big.Int, w int) (mjw int64) {
+	for j := (m.BitLen() + w - 1)/w - 1; j >= 0; j-- {
+		mjw = int64(0)
 		for i := w - 1; i >= 0 ; i-- {
-			fmt.Printf("Before <<=: %v\n", strconv.FormatInt(mjw, 2))
+			//fmt.Printf("Before <<=: %v\n", strconv.FormatInt(mjw, 2))
 			mjw <<= 1
-			fmt.Printf("After <<=: %v\n", strconv.FormatInt(mjw, 2))
+			//fmt.Printf("After <<=: %v\n", strconv.FormatInt(mjw, 2))
 			if m.Bit(j * w + i) != 0 {
-				fmt.Printf("Before |=: %v\n", strconv.FormatInt(mjw, 2))
+				//fmt.Printf("Before |=: %v\n", strconv.FormatInt(mjw, 2))
 				mjw |= 1
-				fmt.Printf("After |=: %v\n", strconv.FormatInt(mjw, 2))
+				//fmt.Printf("After |=: %v\n", strconv.FormatInt(mjw, 2))
 			}
 		}
 		fmt.Println(mjw)
 	}
+	return mjw
 }
 
 // ModPow2wary is another method to do MEC using Window(2w-ary) ModPow
@@ -45,23 +45,37 @@ func ModPow2wary(a, m, N *big.Int, w int) (*big.Int, error) {
 		return nil, errors.New("Input must be positive number")
 	}
 
-	table := make([]*big.Int, 2 ^ w)
+	two := big.NewInt(2)
+	length := two.Exp(two, big.NewInt(int64(w)), nil).Int64()
+	table := make([]*big.Int, length)
 	table[0] = big.NewInt(0)
-	for k := 1; k < 2 ^ w; k++ {
-		table[k].Mul(table[k-1], a).Mod(table[k], N)
+	fmt.Println(length, len(table))
+	for k := 1; k < int(length); k++ {
+		hoge := table[k-1].Int64() * a.Int64() % N.Int64()
+		table[k] = big.NewInt(hoge)
+		fmt.Println(table[k-1], table[k])
 	}
+	fmt.Println(len(table))
 
 	S := big.NewInt(1)
-	for j := m.BitLen()/w - 1; j >= 0; j-- {
+	for j := (m.BitLen() + w - 1)/w - 1; j >= 0; j-- {
 		for i := 0; i < w; i++ {
 			S.Mul(S, S).Mod(S, N)
 		}
 
-		for i := w - 1; i >=0; i-- {
-			if m.Bit(j) != 0 {
-				//S.Mul(S, a).Mul(S, hoge).Mod(S, N)
+		mjw := int64(0)
+		for i := w - 1; i >= 0 ; i-- {
+			//fmt.Printf("Before <<=: %v\n", strconv.FormatInt(mjw, 2))
+			mjw <<= 1
+			//fmt.Printf("After <<=: %v\n", strconv.FormatInt(mjw, 2))
+			if m.Bit(j * w + i) != 0 {
+				//fmt.Printf("Before |=: %v\n", strconv.FormatInt(mjw, 2))
+				mjw |= 1
+				//fmt.Printf("After |=: %v\n", strconv.FormatInt(mjw, 2))
 			}
 		}
+		fmt.Printf("mjw: %v\n", mjw)
+		S.Mul(S, table[mjw]).Mod(S, N)
 	}
 
 	return nil, nil
