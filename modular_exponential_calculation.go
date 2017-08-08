@@ -2,9 +2,8 @@ package main
 
 import (
 	"errors"
-
-	"math"
 	"math/big"
+	"fmt"
 )
 
 /*
@@ -28,16 +27,21 @@ func ModPowSlidingWindow(a, m, N *big.Int, w int) (s *big.Int, err error) {
 	return s, nil
 }
 
+func makeDataTableForSlidingWindow(a, N *big.Int, w int)  {
+	hoge := 2 << uint(w)
+	fmt.Println(hoge)
+}
+
 // ModPow2wary is another method to do MEC using Window(2w-ary) ModPow
 func ModPow2wary(a, m, N *big.Int, w int) (*big.Int, error) {
 	if N.Sign() <= 0 || m.Sign() <= 0 {
 		return nil, errors.New("Input must be positive number")
 	}
 
-	length := int64(math.Pow(2, float64(w)))
+	length := 1 << uint(w)
 	table := make([]*big.Int, length)
 	table[0] = big.NewInt(1)
-	for k := 1; k < int(length); k++ {
+	for k := 1; k < length; k++ {
 		table[k] = big.NewInt(table[k-1].Int64() * a.Int64() % N.Int64())
 	}
 

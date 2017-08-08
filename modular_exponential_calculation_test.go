@@ -6,6 +6,12 @@ import (
 	"testing"
 )
 
+func TestMakeDataTableForSlidingWindow(t *testing.T) {
+	a := big.NewInt(10)
+	n := big.NewInt(19)
+	makeDataTableForSlidingWindow(a, n, 3)
+}
+
 func TestModPowSlidingWindow(t *testing.T) {
 	expectedS := big.NewInt(0)
 
