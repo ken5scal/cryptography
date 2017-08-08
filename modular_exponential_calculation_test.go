@@ -6,11 +6,6 @@ import (
 	"testing"
 )
 
-func TestGetWindow(t *testing.T) {
-	m := big.NewInt(1501)
-	fmt.Println(getWindow(m, 3))
-}
-
 func TestModPow2wary(t *testing.T) {
 	expectedS := big.NewInt(0)
 

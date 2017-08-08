@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	"fmt"
+
 	"math"
 	"math/big"
 )
@@ -21,20 +21,6 @@ S = a^m mod N
   - m: Secret Exponent秘密指数(d)
   - N: Public Modulus(N)
 */
-
-func getWindow(m *big.Int, w int) (mjw int64) {
-	for j := (m.BitLen()+w-1)/w - 1; j >= 0; j-- {
-		mjw = int64(0)
-		for i := w - 1; i >= 0; i-- {
-			mjw <<= 1
-			if m.Bit(j*w+i) != 0 {
-				mjw |= 1
-			}
-		}
-		fmt.Println(mjw)
-	}
-	return mjw
-}
 
 // ModPow2wary is another method to do MEC using Window(2w-ary) ModPow
 func ModPow2wary(a, m, N *big.Int, w int) (*big.Int, error) {
