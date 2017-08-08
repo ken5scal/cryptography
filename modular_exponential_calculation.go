@@ -22,6 +22,12 @@ S = a^m mod N
   - N: Public Modulus(N)
 */
 
+// ModPowSlidingWindow is another method to calculate MEC using Sliding Window Mod Pow
+func ModPowSlidingWindow(a, m, N *big.Int, w int) (s *big.Int, err error) {
+	s = big.NewInt(1)
+	return s, nil
+}
+
 // ModPow2wary is another method to do MEC using Window(2w-ary) ModPow
 func ModPow2wary(a, m, N *big.Int, w int) (*big.Int, error) {
 	if N.Sign() <= 0 || m.Sign() <= 0 {
