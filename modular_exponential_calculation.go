@@ -3,7 +3,7 @@ package main
 import (
 	"errors"
 	"math/big"
-	"fmt"
+	"github.com/bitly/go-nsq"
 )
 
 /*
@@ -23,7 +23,19 @@ S = a^m mod N
 
 // ModPowSlidingWindow is another method to calculate MEC using Sliding Window Mod Pow
 func ModPowSlidingWindow(a, m, N *big.Int, w int) (s *big.Int, err error) {
+	at := makeDataTableForSlidingWindow(a.Int64(), N.Int64(), int64(w))
 	s = big.NewInt(1)
+	for j := m.BitLen() - 1; j >=0; {
+		if m.Bit(j) == 0 {
+			s.Exp(s,big.NewInt(2), N)
+			j--
+			continue
+		}
+
+		s.Mul(s, at[3 >> 1]).Mod(s, N)
+		// s.Mul(s, at[mjl >> 1]).Mod(s, N)
+		j =  l -1
+	}
 	return s, nil
 }
 
