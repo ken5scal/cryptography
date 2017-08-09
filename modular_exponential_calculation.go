@@ -2,8 +2,8 @@ package main
 
 import (
 	"errors"
+	"math"
 	"math/big"
-	"github.com/bitly/go-nsq"
 )
 
 /*
@@ -25,34 +25,48 @@ S = a^m mod N
 func ModPowSlidingWindow(a, m, N *big.Int, w int) (s *big.Int, err error) {
 	at := makeDataTableForSlidingWindow(a.Int64(), N.Int64(), int64(w))
 	s = big.NewInt(1)
-	for j := m.BitLen() - 1; j >=0; {
+	for j := m.BitLen() - 1; j >= 0; {
 		if m.Bit(j) == 0 {
-			s.Exp(s,big.NewInt(2), N)
+			s.Exp(s, big.NewInt(2), N)
 			j--
-			continue
-		}
+		} else {
+			var l int
+			for l := int(math.Max(float64(j-w+1), 0)); l < 0; l++ {
+				if m.Bit(l) != 0 {
+					break
+				}
+			}
 
-		s.Mul(s, at[3 >> 1]).Mod(s, N)
-		// s.Mul(s, at[mjl >> 1]).Mod(s, N)
-		j =  l -1
+			mjl := int64(0)
+			for i := j; i >= 1; i-- {
+				mjl <<= 1
+				if m.Bit(l) != 0 {
+					mjl |= 1
+				}
+				s.Mul(s, s).Mod(s, N)
+
+			}
+			s.Mul(s, at[mjl>>1]).Mod(s, N)
+			j = l - 1
+		}
 	}
 	return s, nil
 }
 
-func makeDataTableForSlidingWindow(a, N, w int64)  (at []*big.Int) {
+func makeDataTableForSlidingWindow(a, N, w int64) (at []*big.Int) {
 	length := 1 << uint(w-1)
 	at = make([]*big.Int, length)
-	b := a*a%N
+	b := a * a % N
 	at[0] = big.NewInt(a % N)
 	for j := 1; j < length; j++ {
-		at[j] = big.NewInt(at[j-1].Int64()* b % N)
+		at[j] = big.NewInt(at[j-1].Int64() * b % N)
 	}
 	return at
 }
 
 // ModPow2wary is another method to do MEC using Window(2w-ary) ModPow
 func ModPow2wary(a, m, N *big.Int, w int) (*big.Int, error) {
-	if N.Sign() <= 0 || m.Sign() <= 0  || w <= 0 {
+	if N.Sign() <= 0 || m.Sign() <= 0 || w <= 0 {
 		return nil, errors.New("Input must be positive number")
 	}
 
