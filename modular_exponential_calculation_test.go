@@ -33,7 +33,7 @@ func TestModPow2wary(t *testing.T) {
 	expectedS := big.NewInt(0)
 
 	a := big.NewInt(10)
-	m := big.NewInt(1501)
+	m := big.NewInt(2405)
 	n := big.NewInt(19)
 	expectedS.Exp(a, m, n)
 	s, err := ModPow2wary(a, m, n, 3)

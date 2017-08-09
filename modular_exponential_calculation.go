@@ -27,18 +27,18 @@ func ModPowSlidingWindow(a, m, N *big.Int, w int) (s *big.Int, err error) {
 	at := makeDataTableForSlidingWindow(a.Int64(), N.Int64(), int64(w))
 	s = big.NewInt(1)
 	for j := m.BitLen() - 1; j >= 0; {
-		fmt.Println("j: ", j)
 		if m.Bit(j) == 0 {
+			fmt.Println("m[j] = 0: ", j)
 			s.Exp(s, big.NewInt(2), N)
 			j--
 		} else {
+			fmt.Println("m[j] = 1: ", j)
 			l := int(math.Max(float64(j-w+1), 0))
 			for ; j > l; l++ {
 				if m.Bit(l) != 0 {
 					break
 				}
 			}
-			fmt.Println("l: ", l)
 
 			mjl := int64(0)
 			for i := j; i >= l; i-- {
@@ -46,7 +46,7 @@ func ModPowSlidingWindow(a, m, N *big.Int, w int) (s *big.Int, err error) {
 				if m.Bit(l) != 0 {
 					mjl |= 1
 				}
-				fmt.Printf("i: %v, mjl: %v, mjl>>1: %v\n",i, mjl, mjl >>1)
+				fmt.Printf("l: %v, i: %v, mjl: %v, mjl>>1: %v\n",l, i, mjl, mjl >>1)
 				s.Mul(s, s).Mod(s, N)
 			}
 			s.Mul(s, at[mjl>>1]).Mod(s, N)
