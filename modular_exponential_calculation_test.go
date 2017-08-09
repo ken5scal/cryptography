@@ -7,16 +7,15 @@ import (
 )
 
 func TestMakeDataTableForSlidingWindow(t *testing.T) {
-	a := big.NewInt(10)
-	n := big.NewInt(19)
-	makeDataTableForSlidingWindow(a, n, 3)
+	at := makeDataTableForSlidingWindow(10, 19, 3)
+	fmt.Println(at)
 }
 
 func TestModPowSlidingWindow(t *testing.T) {
 	expectedS := big.NewInt(0)
 
 	a := big.NewInt(10)
-	m := big.NewInt(1501)
+	m := big.NewInt(2405)
 	n := big.NewInt(19)
 	expectedS.Exp(a, m, n)
 

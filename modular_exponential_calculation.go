@@ -4,6 +4,7 @@ import (
 	"errors"
 	"math"
 	"math/big"
+	"fmt"
 )
 
 /*
@@ -24,6 +25,7 @@ S = a^m mod N
 // ModPowSlidingWindow is another method to calculate MEC using Sliding Window Mod Pow
 func ModPowSlidingWindow(a, m, N *big.Int, w int) (s *big.Int, err error) {
 	at := makeDataTableForSlidingWindow(a.Int64(), N.Int64(), int64(w))
+	fmt.Println(len(at))
 	s = big.NewInt(1)
 	for j := m.BitLen() - 1; j >= 0; {
 		if m.Bit(j) == 0 {
@@ -31,7 +33,7 @@ func ModPowSlidingWindow(a, m, N *big.Int, w int) (s *big.Int, err error) {
 			j--
 		} else {
 			var l int
-			for l := int(math.Max(float64(j-w+1), 0)); l < 0; l++ {
+			for l := int(math.Max(float64(j-w+1), 0)); j > l; l++ {
 				if m.Bit(l) != 0 {
 					break
 				}
@@ -43,8 +45,8 @@ func ModPowSlidingWindow(a, m, N *big.Int, w int) (s *big.Int, err error) {
 				if m.Bit(l) != 0 {
 					mjl |= 1
 				}
+				fmt.Println(i, mjl, mjl >>1)
 				s.Mul(s, s).Mod(s, N)
-
 			}
 			s.Mul(s, at[mjl>>1]).Mod(s, N)
 			j = l - 1
