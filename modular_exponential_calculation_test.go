@@ -7,7 +7,7 @@ import (
 )
 
 func TestMakeDataTableForSlidingWindow(t *testing.T) {
-	at := makeDataTableForSlidingWindow(10, 19, 3)
+	at := makeDataTableForSlidingWindow(10, 19, 4)
 	fmt.Println(at)
 }
 
