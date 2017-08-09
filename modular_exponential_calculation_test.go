@@ -19,7 +19,7 @@ func TestModPowSlidingWindow(t *testing.T) {
 	n := big.NewInt(19)
 	expectedS.Exp(a, m, n)
 
-	s, err := ModPowSlidingWindow(a, m, n, 3)
+	s, err := ModPowSlidingWindow(a, m, n, 4)
 	if err != nil {
 		t.Errorf("Error: %v\n", err)
 		return
