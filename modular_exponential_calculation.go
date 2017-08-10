@@ -4,7 +4,6 @@ import (
 	"errors"
 	"math"
 	"math/big"
-	"fmt"
 )
 
 /*
@@ -24,6 +23,10 @@ S = a^m mod N
 
 // ModPowSlidingWindow is another method to calculate MEC using Sliding Window Mod Pow
 func ModPowSlidingWindow(a, m, N *big.Int, w int) (s *big.Int, err error) {
+	if a.Sign() <= 0 || N.Sign() <= 0 || m.Sign() <= 0 || w <= 0 {
+		return nil, errors.New("Input must be positive number")
+	}
+
 	at := makeDataTableForSlidingWindow(a.Int64(), N.Int64(), int64(w))
 	s = big.NewInt(1)
 	for j := m.BitLen() - 1; j >= 0; {
@@ -41,12 +44,11 @@ func ModPowSlidingWindow(a, m, N *big.Int, w int) (s *big.Int, err error) {
 			mjl := int64(0)
 			for i := j; i >= l; i-- {
 				mjl <<= 1
-				if m.Bit(l) != 0 {
+				if m.Bit(i) != 0 {
 					mjl |= 1
 				}
 				s.Exp(s, big.NewInt(2), N)
 			}
-			fmt.Println(mjl>>1)
 			s.Mul(s, at[mjl>>1]).Mod(s, N)
 			j = l - 1
 		}
@@ -67,7 +69,7 @@ func makeDataTableForSlidingWindow(a, N, w int64) (at []*big.Int) {
 
 // ModPow2wary is another method to do MEC using Window(2w-ary) ModPow
 func ModPow2wary(a, m, N *big.Int, w int) (*big.Int, error) {
-	if N.Sign() <= 0 || m.Sign() <= 0 || w <= 0 {
+	if a.Sign() <= 0 || N.Sign() <= 0 || m.Sign() <= 0 || w <= 0 {
 		return nil, errors.New("Input must be positive number")
 	}
 
