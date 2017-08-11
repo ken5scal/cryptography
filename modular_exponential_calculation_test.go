@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math/big"
 	"testing"
+	crand "crypto/rand"
+	"encoding/binary"
 )
 
 func TestMakeDataTableForSlidingWindow(t *testing.T) {
@@ -68,4 +70,47 @@ func TestModPow(t *testing.T) {
 
 func BenchmarkModPowSlidingWindow(b *testing.B) {
 
+	bitCount := 2048
+	dataCount := 10
+	windowSize := 6
+
+	randoms := make([]*big.Int, dataCount + 2)
+	k := make([]byte, bitCount)
+
+	for i := 0; i < len(randoms); {
+		crand.Read(k)
+		by, _ := binary.Varint(k)
+
+		if by > 0 {
+			randoms[i] = big.NewInt(by)
+			i++
+		}
+	}
+
+	for i := 0; i < dataCount; i++ {
+		ModPowSlidingWindow(randoms[i], randoms[i+1], randoms[i+2], windowSize)
+	}
+}
+
+func BenchmarkModPow(b *testing.B) {
+
+	bitCount := 2048
+	dataCount := 10
+
+	randoms := make([]*big.Int, dataCount + 2)
+	k := make([]byte, bitCount)
+
+	for i := 0; i < len(randoms); {
+		crand.Read(k)
+		by, _ := binary.Varint(k)
+
+		if by > 0 {
+			randoms[i] = big.NewInt(by)
+			i++
+		}
+	}
+
+	for i := 0; i < dataCount; i++ {
+		ModPow(randoms[i], randoms[i+1], randoms[i+2])
+	}
 }
