@@ -65,3 +65,7 @@ func TestModPow(t *testing.T) {
 		t.Error(fmt.Sprintf("expected %v, but got %v", expectedS, s))
 	}
 }
+
+func BenchmarkModPowSlidingWindow(b *testing.B) {
+
+}
