@@ -14,9 +14,14 @@ func TestChineseRemainderTheorem(t *testing.T) {
 	p := big.NewInt(7)
 	q := big.NewInt(11)
 	d := big.NewInt(13)
-	dp := big.NewInt(d.Int64() % (p.Int64() - 1))
-	dq := big.NewInt(d.Int64() % (q.Int64() - 1))
-	v:= big.NewInt(1/ p.Int64() % q.Int64())
+
+	dp := big.NewInt(0)
+	dq := big.NewInt(0)
+	v := big.NewInt(0)
+
+	dp.Mod(d, dp.Sub(p, big.NewInt(1)))
+	dq.Mod(d, dq.Sub(q, big.NewInt(1)))
+	v.ModInverse(p, q)
 
 	s, err := ChineseRemainderTheorem(C, p, q, dp, dq, v)
 

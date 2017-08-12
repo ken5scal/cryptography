@@ -4,6 +4,7 @@ import (
 	"errors"
 	"math"
 	"math/big"
+	"fmt"
 )
 
 /*
@@ -49,6 +50,8 @@ func ChineseRemainderTheorem(c, p, q, dp, dq, v *big.Int) (M *big.Int, err error
 	for V.Int64() < 0 {
 		V.Add(V, q)
 	}
+
+	fmt.Printf("C: %v, dp: %v, dp: %v, v: %v, Cp: %v, Cq: %v, Mp: %v, Mq: %v, V: %v\n", c, dp, dq, v, cp, cq, M_p, M_q, V)
 
 	// M = Vp + M_p
 	M.Add(M.Mul(V, p), M_p)
