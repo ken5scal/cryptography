@@ -10,18 +10,23 @@ import (
 RSA Encryption/Decryption is done by Modular Exponential Calculation(MEC) <- 冪剰余計算
 S = a^m mod N
  Encryption:
-  - S: Cipher Text
-  - a: Plain Text
+  - S: Cipher Text(C)
+  - a: Plain Text(M)
   - m: Public Exponent公開指数(e)
-  - N: Public Modulus(N)
+  - N: Public Modulus(N)公開モジュラス
+  - (m, N) = (e, N): public key
+  - C = M ^ e mod N
  Decryption:
-  - S: Plain Text
-  - a: Cipher Text
+  - S: Plain Text(M)
+  - a: Cipher Text(C)
   - m: Secret Exponent秘密指数(d)
-  - N: Public Modulus(N)
+  - N: Public Modulus(N)公開モジュラス
+  - (m, N) = (d, N): private key
+  - M = C ^ d mod N
 */
 
 // ChineseRemainderTheorem uses prime factors(p, q) to calculate MEC
+// its pre-requisite is to know p and q. So it can only utilized in DECRYPTION.
 func ChineseRemainderTheorem(c, p, q, dp, dq, v *big.Int) (M *big.Int, err error) {
 	// Initialize
 	cp := big.NewInt(0)
