@@ -8,6 +8,30 @@ import (
 	"encoding/binary"
 )
 
+func TestChineseRemainderTheorem(t *testing.T) {
+	expectedS := big.NewInt(0)
+	C := big.NewInt(52)
+	p := big.NewInt(7)
+	q := big.NewInt(11)
+	d := big.NewInt(13)
+	dp := big.NewInt(d.Int64() % (p.Int64() - 1))
+	dq := big.NewInt(d.Int64() % (q.Int64() - 1))
+	v:= big.NewInt(1/ p.Int64() % q.Int64())
+
+	s, err := ChineseRemainderTheorem(C, p, q, dp, dq, v)
+
+	N := big.NewInt(p.Int64() * q.Int64())
+	expectedS.Exp(C, d, N)
+	if err != nil {
+		t.Errorf("Error: %v\n", err)
+		return
+	}
+
+	if expectedS.Cmp(s) != 0 {
+		t.Error(fmt.Sprintf("expected %v, but got %v", expectedS, s))
+	}
+}
+
 func TestMakeDataTableForSlidingWindow(t *testing.T) {
 	w := 4
 	length := 1 << uint(w-1)

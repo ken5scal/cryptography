@@ -22,7 +22,8 @@ S = a^m mod N
 */
 
 // ChineseRemainderTheorem uses prime factors(p, q) to calculate MEC
-func ChineseRemainderTheorem() (s *big.Int, err error) {
+func ChineseRemainderTheorem(c, p, q, dp, dq, v *big.Int) (s *big.Int, err error) {
+	s = big.NewInt(0)
 	return s, err
 }
 
