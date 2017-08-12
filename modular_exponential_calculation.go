@@ -22,9 +22,37 @@ S = a^m mod N
 */
 
 // ChineseRemainderTheorem uses prime factors(p, q) to calculate MEC
-func ChineseRemainderTheorem(c, p, q, dp, dq, v *big.Int) (s *big.Int, err error) {
-	s = big.NewInt(0)
-	return s, err
+func ChineseRemainderTheorem(c, p, q, dp, dq, v *big.Int) (M *big.Int, err error) {
+	// Initialize
+	cp := big.NewInt(0)
+	cq  := big.NewInt(0)
+	V := big.NewInt(0)
+	M = big.NewInt(0)
+
+	cp.Set(c)
+	cp.Mod(c, p)
+	cq.Set(c)
+	cq.Mod(c, q)
+
+	M_p, err := ModPow(c, dp, p)
+	if err != nil {
+		return nil, err
+	}
+
+	M_q, err := ModPow(c, dq, q)
+	if err != nil {
+		return nil, err
+	}
+
+	// V = v(M_q - M_p) mod q
+	V.Mul(v, V.Sub(M_q, M_p)).Mod(v, q)
+	for V.Int64() < 0 {
+		V.Add(V, q)
+	}
+
+	// M = Vp + M_p
+	M.Add(M.Mul(V, p), M_p)
+	return M, err
 }
 
 // ModPowSlidingWindow is another method to calculate MEC using Sliding Window Mod Pow
