@@ -41,7 +41,7 @@ func TestGcd(t *testing.T) {
 
 func TestExtendedEuclidGCD(t *testing.T) {
 	for _, tt := range extendedEuclidTestSets {
-		x, y, r, err := ExtendedEuclidGCD(tt.a, tt.b)
+		x, y, r, err := extendedEuclidGCD(tt.a, tt.b)
 		if err != nil {
 			t.Errorf("Error: %v\n", err)
 			return

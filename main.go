@@ -23,6 +23,6 @@ func main() {
 
 	a = big.NewInt(2793)
 	b = big.NewInt(828)
-	x, y, g, _ := ExtendedEuclidGCD(a, b)
+	x, y, g, _ := extendedEuclidGCD(a, b)
 	fmt.Println(x, y, g)
 }
