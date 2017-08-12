@@ -27,6 +27,7 @@ func TestChineseRemainderTheorem(t *testing.T) {
 
 	N := big.NewInt(p.Int64() * q.Int64())
 	expectedS.Exp(C, d, N)
+
 	if err != nil {
 		t.Errorf("Error: %v\n", err)
 		return
