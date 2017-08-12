@@ -7,7 +7,7 @@ import (
 )
 
 /*
-RSA Encryption/Decryption is done by Modular Exponential Calculation(MEC)
+RSA Encryption/Decryption is done by Modular Exponential Calculation(MEC) <- 冪剰余計算
 S = a^m mod N
  Encryption:
   - S: Cipher Text
@@ -56,6 +56,7 @@ func ModPowSlidingWindow(a, m, N *big.Int, w int) (s *big.Int, err error) {
 	return s, nil
 }
 
+// makeDataTableForSlidingWindow makes sliding window table for ModPowSlidingWindow
 func makeDataTableForSlidingWindow(a, N, w int64) (at []*big.Int) {
 	length := 1 << uint(w-1)
 	at = make([]*big.Int, length)

@@ -9,8 +9,20 @@ import (
 )
 
 func TestMakeDataTableForSlidingWindow(t *testing.T) {
-	at := makeDataTableForSlidingWindow(10, 19, 4)
-	fmt.Println(at)
+	w := 4
+	length := 1 << uint(w-1)
+	at := makeDataTableForSlidingWindow(10, 19, int64(w))
+	expected := []*big.Int{big.NewInt(10), big.NewInt(12), big.NewInt(3),
+		big.NewInt(15), big.NewInt(18), big.NewInt(14),big.NewInt(13), big.NewInt(8)}
+	if len(at) != length {
+		t.Errorf("Length should be: %v, but was %v\n", length, len(at))
+		return
+	}
+	for i, v := range expected {
+		if at[i].Cmp(v) != 0 {
+			t.Errorf("Table at index %v should be %v, but was %v\n", i, v, at[i])
+		}
+	}
 }
 
 func TestModPowSlidingWindow(t *testing.T) {
@@ -21,13 +33,11 @@ func TestModPowSlidingWindow(t *testing.T) {
 	n := big.NewInt(19)
 	expectedS.Exp(a, m, n)
 
-	fmt.Printf("a: %v, m: %v, n: %v\n", a, m, n)
 	s, err := ModPowSlidingWindow(a, m, n, 4)
 	if err != nil {
 		t.Errorf("Error: %v\n", err)
 		return
 	}
-	fmt.Println(s, expectedS)
 	if expectedS.Cmp(s) != 0 {
 		t.Error(fmt.Sprintf("expected %v, but got %v", expectedS, s))
 	}
@@ -68,6 +78,7 @@ func TestModPow(t *testing.T) {
 	}
 }
 
+// ToDo Requires Improvement: Make 2048 fixed length of random number
 func BenchmarkModPowSlidingWindow(b *testing.B) {
 
 	bitCount := 2048
@@ -92,6 +103,7 @@ func BenchmarkModPowSlidingWindow(b *testing.B) {
 	}
 }
 
+// ToDo Requires Improvement: Make 2048 fixed length of random number
 func BenchmarkModPow(b *testing.B) {
 
 	bitCount := 2048
