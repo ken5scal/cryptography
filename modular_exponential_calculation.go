@@ -21,6 +21,11 @@ S = a^m mod N
   - N: Public Modulus(N)
 */
 
+// ChineseRemainderTheorem uses prime factors(p, q) to calculate MEC
+func ChineseRemainderTheorem() (s *big.Int, err error) {
+	return s, err
+}
+
 // ModPowSlidingWindow is another method to calculate MEC using Sliding Window Mod Pow
 func ModPowSlidingWindow(a, m, N *big.Int, w int) (s *big.Int, err error) {
 	if a.Sign() <= 0 || N.Sign() <= 0 || m.Sign() <= 0 || w <= 0 {
