@@ -30,7 +30,7 @@ S = a^m mod N
 func ChineseRemainderTheorem(c, p, q, dp, dq, v *big.Int) (M *big.Int, err error) {
 	// Initialize
 	cp := big.NewInt(0)
-	cq  := big.NewInt(0)
+	cq := big.NewInt(0)
 	V := big.NewInt(0)
 	M = big.NewInt(0)
 

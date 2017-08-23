@@ -1,13 +1,13 @@
 package main
 
 import (
-	"testing"
 	"math/big"
+	"testing"
 )
 
 func TestIsPrimeByFermat(t *testing.T) {
 	r := big.NewInt(7)
-	t2 := big.NewInt(1   )
+	t2 := big.NewInt(1)
 	actual, err := IsPrimeByFermat(r, t2)
 	if err != nil {
 		t.Error(err)

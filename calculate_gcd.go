@@ -1,8 +1,8 @@
 package main
 
 import (
-	"math/big"
 	"errors"
+	"math/big"
 )
 
 /*
@@ -14,7 +14,7 @@ In RSA there are 3 transactions that require GCD.
 	where gcd(e, L) = 1.
 	d is used to decrypt cipher-text using M = C ^ d mod N
 3) 素数判定処理の高速化に用いる「ふるい」の計算
- */
+*/
 
 // ModInverse is basically ExtendedEuclidGCD adapted to RSA
 // It Calculates a secret exponent秘密指数(d) from L and pre-determined public exponent公開指数(e)

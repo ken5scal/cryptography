@@ -1,11 +1,11 @@
 package main
 
 import (
+	crand "crypto/rand"
+	"encoding/binary"
 	"fmt"
 	"math/big"
 	"testing"
-	crand "crypto/rand"
-	"encoding/binary"
 )
 
 func TestChineseRemainderTheorem(t *testing.T) {
@@ -43,7 +43,7 @@ func TestMakeDataTableForSlidingWindow(t *testing.T) {
 	length := 1 << uint(w-1)
 	at := makeDataTableForSlidingWindow(10, 19, int64(w))
 	expected := []*big.Int{big.NewInt(10), big.NewInt(12), big.NewInt(3),
-		big.NewInt(15), big.NewInt(18), big.NewInt(14),big.NewInt(13), big.NewInt(8)}
+		big.NewInt(15), big.NewInt(18), big.NewInt(14), big.NewInt(13), big.NewInt(8)}
 	if len(at) != length {
 		t.Errorf("Length should be: %v, but was %v\n", length, len(at))
 		return
@@ -115,7 +115,7 @@ func BenchmarkModPowSlidingWindow(b *testing.B) {
 	dataCount := 10
 	windowSize := 6
 
-	randoms := make([]*big.Int, dataCount + 2)
+	randoms := make([]*big.Int, dataCount+2)
 	k := make([]byte, bitCount)
 
 	for i := 0; i < len(randoms); {
@@ -139,7 +139,7 @@ func BenchmarkModPow(b *testing.B) {
 	bitCount := 2048
 	dataCount := 10
 
-	randoms := make([]*big.Int, dataCount + 2)
+	randoms := make([]*big.Int, dataCount+2)
 	k := make([]byte, bitCount)
 
 	for i := 0; i < len(randoms); {
