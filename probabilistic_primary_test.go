@@ -19,12 +19,16 @@ func TestIsPrimeByFermat(t *testing.T) {
 }
 
 func TestIllegalArgumentPrimeByFermat(t *testing.T) {
-	r := big.NewInt(0)
-	t2 := big.NewInt(1)
+	zero := big.NewInt(0)
+	three := big.NewInt(10)
 
-	_, err := IsPrimeByFermat(r, t2)
+	_, err := IsPrimeByFermat(zero, three)
+	if err == nil {
+		t.Errorf("Expected to return error due to illegal argument.")
+	}
 
-	if err != nil {
+	_, err = IsPrimeByFermat(three, zero)
+	if err == nil {
 		t.Errorf("Expected to return error due to illegal argument.")
 	}
 }
