@@ -50,3 +50,12 @@ func IsPrimeByMillerRabinTest(r *big.Int, t *big.Int) (bool, error) {
 
 	return true, nil
 }
+
+func findSAndK(r  *big.Int) (s, k *big.Int) {
+	d := new(big.Int).Sub(r, bigOne)
+	for d.Mod(k, bigTwo).Cmp(bigZero) == 0 {
+		s.Add(s, bigOne)
+		k.Div(k, bigTwo)
+	}
+	return
+}
