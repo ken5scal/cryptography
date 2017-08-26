@@ -6,16 +6,22 @@ import (
 	"testing"
 )
 
-func TestIsPrimeByMillerRabinTest(t *testing.T) {
-	r := big.NewInt(89)
-	t2 := big.NewInt(30)
-	isPrime, err := IsPrimeByMillerRabinTest(r, t2)
-	if err != nil {
-		t.Error(err)
-	}
+var primes = []int64{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97}
 
-	if !isPrime {
-		t.Errorf("Expected %v to be prime, but not.\n", r)
+func TestIsPrimeByMillerRabinTest(t *testing.T) {
+	//r := big.NewInt(89)
+	t2 := big.NewInt(30)
+	//isPrime, err := IsPrimeByMillerRabinTest(r, t2)
+
+	for _, p := range primes {
+		isPrime, err := IsPrimeByMillerRabinTest(big.NewInt(p), t2)
+		if err != nil {
+			t.Error(err)
+		}
+
+		if !isPrime {
+			t.Errorf("Expected %v to be prime, but not.\n", p)
+		}
 	}
 }
 
