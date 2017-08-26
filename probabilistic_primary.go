@@ -42,36 +42,10 @@ func IsPrimeByMillerRabinTest(r *big.Int, t *big.Int) (bool, error) {
 	}
 
 	s, k := findSandK(r) // 2^s*k = r - 1
-	//r_minus_1 := new(big.Int).Sub(r, bigOne)
-	//rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
-
-	//LOOP:
 	for i := 0; i < int(t.Int64()); i++ {
 		if !millerTest(r, k, s) {
 			return false, nil
 		}
-		//result := false
-
-		//a := new(big.Int).Rand(rnd, r_minus_1)
-		//a.Add(a, bigOne)
-		//x := new(big.Int).Exp(a, k, r)
-		//
-		//if x.Cmp(bigOne) == 0 || x.Cmp(r_minus_1) == 0 {
-		//	continue
-		//} else {
-		//	for n := 0; n < int(s.Int64()); n++ {
-		//		x.Exp(x, bigTwo, r)
-		//		if x.Cmp(bigOne) == 0 {
-		//			return false, nil
-		//		} else if x.Cmp(r_minus_1) == 0 {
-		//			result = true
-		//			break
-		//		}
-		//	}
-		//}
-		//if !result && new(big.Int).Exp(a, k, r).Cmp(bigOne) != 0 {
-		//	return false, nil
-		//}
 	}
 
 	return true, nil
