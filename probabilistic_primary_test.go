@@ -7,15 +7,15 @@ import (
 )
 
 func TestIsPrimeByMillerRabinTest(t *testing.T) {
-	r := big.NewInt(7)
-	t2 := big.NewInt(1)
-	actual, err := IsPrimeByMillerRabinTest(r, t2)
+	r := big.NewInt(89)
+	t2 := big.NewInt(30)
+	isPrime, err := IsPrimeByMillerRabinTest(r, t2)
 	if err != nil {
 		t.Error(err)
 	}
 
-	if !actual {
-		t.Errorf("Expected r %v to be prime, but not.\n", r)
+	if !isPrime {
+		t.Errorf("Expected %v to be prime, but not.\n", r)
 	}
 }
 

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"math/big"
 	"math/rand"
+	"fmt"
 )
 
 var bigZero = big.NewInt(0)
@@ -43,6 +44,7 @@ func IsPrimeByMillerRabinTest(r *big.Int, t *big.Int) (bool, error) {
 	// 2^s*k = r - 1
 	s, k := findSandK(r)
 	r_minus_1 := new(big.Int).Sub(r, bigOne)
+	fmt.Println(s, k, r_minus_1)
 
 	for i := 0; i < int(t.Int64()); i++ {
 		a := big.NewInt(rand.Int63n(r.Int64()) + 2)
