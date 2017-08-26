@@ -6,7 +6,9 @@ import (
 	"math/rand"
 )
 
+var bigZero = big.NewInt(0)
 var bigOne = big.NewInt(1)
+var bigTwo = big.NewInt(2)
 var bigThree = big.NewInt(3)
 
 // IsPrimeByFermatTest judges whether r is prime number using Probabilistic Prime Test algorithm, Fermat
@@ -32,7 +34,19 @@ func IsPrimeByFermatTest(r *big.Int, t *big.Int) (bool, error) {
 	return true, nil
 }
 
-// IsPrimeByMillerRaninTest is more efficient thant Fermat test.
-func IsPrimeByMillerRaninTest() (bool, error) {
+// IsPrimeByMillerRabinTest is more efficient thant Fermat test.
+func IsPrimeByMillerRabinTest(r *big.Int, t *big.Int) (bool, error) {
+	if r.Cmp(bigThree) == -1 || t.Cmp(bigOne) == -1 {
+		return false, errors.New("r must be larger than or equal to 3, and t must be larger than or equal to 1")
+	}
+
+	// 2^s*K = r -r
+	s := 0
+	d := new(big.Int).Sub(r, bigOne)
+	for d.Mod(d, bigTwo).Cmp(bigZero) != 0{
+		s++
+		d.Div(d, bigTwo)
+	}
+
 	return true, nil
 }
