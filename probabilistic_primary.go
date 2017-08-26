@@ -41,13 +41,13 @@ func IsPrimeByMillerRabinTest(r *big.Int, t *big.Int) (bool, error) {
 		return false, errors.New("r must be larger than or equal to 3, and t must be larger than or equal to 1")
 	}
 
-	_, k := findSandK(r) // 2^s*k = r - 1
+	s, k := findSandK(r) // 2^s*k = r - 1
 	//r_minus_1 := new(big.Int).Sub(r, bigOne)
 	//rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	//LOOP:
 	for i := 0; i < int(t.Int64()); i++ {
-		if !millerTest(r, k) {
+		if !millerTest(r, k, s) {
 			return false, nil
 		}
 		//result := false
@@ -77,7 +77,7 @@ func IsPrimeByMillerRabinTest(r *big.Int, t *big.Int) (bool, error) {
 	return true, nil
 }
 
-func millerTest(r *big.Int, k *big.Int) bool {
+func millerTest(r *big.Int, k *big.Int, s *big.Int) bool {
 	rMinusOne := new(big.Int).Sub(r, bigOne)
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
 	
@@ -90,16 +90,15 @@ func millerTest(r *big.Int, k *big.Int) bool {
 		return true
 	}
 
-	for k.Cmp(rMinusOne) != 0 {
+	for n := 0; n < int(s.Int64()); n++ {
 		x.Exp(x, bigTwo, r)
-		k.Mul(k, bigTwo)
-
 		if x.Cmp(bigOne) == 0 {
 			return false
 		} else if x.Cmp(rMinusOne) == 0 {
 			return true
 		}
 	}
+
 	return false
 }
 
