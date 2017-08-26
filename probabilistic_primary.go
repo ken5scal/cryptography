@@ -4,8 +4,6 @@ import (
 	"errors"
 	"math/big"
 	"math/rand"
-	"fmt"
-	"time"
 )
 
 var bigZero = big.NewInt(0)
@@ -53,13 +51,12 @@ func IsPrimeByMillerRabinTest(r *big.Int, t *big.Int) (bool, error) {
 	return true, nil
 }
 
-func findSAndK(r  *big.Int) (s, k *big.Int) {
-	s = new(big.Int)
-	k = big.NewInt(r.Int64())
-	fmt.Println("start")
+func findSAndK(r  *big.Int) (*big.Int, *big.Int) {
+	s := new(big.Int)
+	k := new(big.Int).Sub(r, bigOne)
 	for r.Mod(k, bigTwo).Cmp(bigZero) == 0 {
 		s.Add(s, bigOne)
 		k.Div(k, bigTwo)
 	}
-	return
+	return s, k
 }
