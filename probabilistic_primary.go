@@ -4,7 +4,7 @@ import (
 	"errors"
 	"math/big"
 	"math/rand"
-	"fmt"
+	"time"
 )
 
 var bigZero = big.NewInt(0)
@@ -41,33 +41,66 @@ func IsPrimeByMillerRabinTest(r *big.Int, t *big.Int) (bool, error) {
 		return false, errors.New("r must be larger than or equal to 3, and t must be larger than or equal to 1")
 	}
 
-	// 2^s*k = r - 1
-	s, k := findSandK(r)
-	r_minus_1 := new(big.Int).Sub(r, bigOne)
-	fmt.Println(s, k, r_minus_1)
+	_, k := findSandK(r) // 2^s*k = r - 1
+	//r_minus_1 := new(big.Int).Sub(r, bigOne)
+	//rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
 
+	//LOOP:
 	for i := 0; i < int(t.Int64()); i++ {
-		a := big.NewInt(rand.Int63n(r.Int64()) + 2)
-		x := new(big.Int).Exp(a, k, r)
-		if x.Cmp(bigOne) == 0 || x.Cmp(r_minus_1) == 0 {
-			continue
-		}
-
-		n := 1
-		for ; n < int(s.Int64()); n++ {
-			x.Exp(x, bigTwo, r)
-			if x.Cmp(bigOne) == 0 {
-				return false, nil
-			} else if x.Cmp(r_minus_1) == 0 {
-				break
-			}
-		}
-		if s.Int64() == int64(n) {
+		if !millerTest(r, k) {
 			return false, nil
 		}
+		//result := false
+
+		//a := new(big.Int).Rand(rnd, r_minus_1)
+		//a.Add(a, bigOne)
+		//x := new(big.Int).Exp(a, k, r)
+		//
+		//if x.Cmp(bigOne) == 0 || x.Cmp(r_minus_1) == 0 {
+		//	continue
+		//} else {
+		//	for n := 0; n < int(s.Int64()); n++ {
+		//		x.Exp(x, bigTwo, r)
+		//		if x.Cmp(bigOne) == 0 {
+		//			return false, nil
+		//		} else if x.Cmp(r_minus_1) == 0 {
+		//			result = true
+		//			break
+		//		}
+		//	}
+		//}
+		//if !result && new(big.Int).Exp(a, k, r).Cmp(bigOne) != 0 {
+		//	return false, nil
+		//}
 	}
 
 	return true, nil
+}
+
+func millerTest(r *big.Int, k *big.Int) bool {
+	rMinusOne := new(big.Int).Sub(r, bigOne)
+	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
+	
+	a := new(big.Int).Rand(rnd, new(big.Int).Sub(r, big.NewInt(4)))
+	a.Add(a, bigTwo)
+
+	x := new(big.Int).Exp(a, k, r)
+
+	if x.Cmp(bigOne) == 0 || x.Cmp(rMinusOne) == 0 {
+		return true
+	}
+
+	for k.Cmp(rMinusOne) != 0 {
+		x.Exp(x, bigTwo, r)
+		k.Mul(k, bigTwo)
+
+		if x.Cmp(bigOne) == 0 {
+			return false
+		} else if x.Cmp(rMinusOne) == 0 {
+			return true
+		}
+	}
+	return false
 }
 
 // findSandK finds s and k which satisfies r - 1 = 2^s * k
