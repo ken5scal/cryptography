@@ -40,18 +40,26 @@ func IsPrimeByMillerRabinTest(r *big.Int, t *big.Int) (bool, error) {
 		return false, errors.New("r must be larger than or equal to 3, and t must be larger than or equal to 1")
 	}
 
-	// 2^s*K = r -r
-	s := 0
-	d := new(big.Int).Sub(r, bigOne)
-	for d.Mod(d, bigTwo).Cmp(bigZero) != 0{
-		s++
-		d.Div(d, bigTwo)
+	// 2^s*k = r - 1
+	s, k := findSandK(r)
+	for i := 0; i < int(t.Int64()); i++ {
+		a := big.NewInt(rand.Int63n(r.Int64()) + 2)
+		x := new(big.Int).Exp(a, k, r)
+		if x.Cmp(bigOne) == 0 || x.Cmp(big.NewInt(x.Int64() - 1)) == 0{
+			continue
+		}
+
+		for n := 1; n < int(s.Int64()); {
+
+		}
+
 	}
 
 	return true, nil
 }
 
-func findSAndK(r *big.Int) (*big.Int, *big.Int) {
+// findSandK finds s and k which satisfies r - 1 = 2^s * k
+func findSandK(r *big.Int) (*big.Int, *big.Int) {
 	r_cp := big.NewInt(r.Int64())
 	s := new(big.Int)
 	k := new(big.Int).Sub(r, bigOne)

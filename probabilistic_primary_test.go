@@ -22,7 +22,7 @@ func TestIsPrimeByMillerRabinTest(t *testing.T) {
 func TestFindSandK(t *testing.T) {
 	expectedS := big.NewInt(3)
 	expectedK := big.NewInt(11)
-	s, k := findSAndK(big.NewInt(89))
+	s, k := findSandK(big.NewInt(89))
 	eMessage := ""
 	if expectedS.Cmp(s) != 0 {
 		eMessage = fmt.Sprintf("Expected s %v, but was %v\n", expectedS, s)
