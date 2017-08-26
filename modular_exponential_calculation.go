@@ -39,24 +39,24 @@ func ChineseRemainderTheorem(c, p, q, dp, dq, v *big.Int) (M *big.Int, err error
 	cq.Set(c)
 	cq.Mod(c, q)
 
-	M_p, err := ModPow(c, dp, p)
+	Mp, err := ModPow(c, dp, p)
 	if err != nil {
 		return nil, err
 	}
 
-	M_q, err := ModPow(c, dq, q)
+	Mq, err := ModPow(c, dq, q)
 	if err != nil {
 		return nil, err
 	}
 
-	// V = v(M_q - M_p) mod q
-	V.Mul(v, V.Sub(M_q, M_p)).Mod(V, q)
+	// V = v(Mq - Mp) mod q
+	V.Mul(v, V.Sub(Mq, Mp)).Mod(V, q)
 	for V.Int64() < 0 {
 		V.Add(V, q)
 	}
 
-	// M = Vp + M_p
-	M.Add(M.Mul(V, p), M_p)
+	// M = Vp + Mp
+	M.Add(M.Mul(V, p), Mp)
 	return M, err
 }
 

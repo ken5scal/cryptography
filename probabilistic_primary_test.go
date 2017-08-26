@@ -1,9 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"math/big"
 	"testing"
-	"fmt"
 )
 
 func TestIsPrimeByMillerRabinTest(t *testing.T) {
