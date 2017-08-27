@@ -1,4 +1,4 @@
-package main
+package module_exponential
 
 import (
 	crand "crypto/rand"
