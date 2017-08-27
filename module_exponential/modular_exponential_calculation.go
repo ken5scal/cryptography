@@ -29,10 +29,10 @@ S = a^m mod N
 // its pre-requisite is to know p and q. So it can only utilized in DECRYPTION.
 func ChineseRemainderTheorem(c, p, q, dp, dq, v *big.Int) (M *big.Int, err error) {
 	// Initialize
-	cp := big.NewInt(0)
-	cq := big.NewInt(0)
-	V := big.NewInt(0)
-	M = big.NewInt(0)
+	cp := new(big.Int)
+	cq := new(big.Int)
+	V := new(big.Int)
+	M = new(big.Int)
 
 	cp.Set(c)
 	cp.Mod(c, p)
