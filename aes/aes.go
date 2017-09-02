@@ -11,9 +11,9 @@ A 4 × 4 column-major order matrix of bytes on where AES operates.
 128 bits (16 bytes) of AES input is placed in each cell(1 byte).
  */
 
-// setStateBlock generates block(state) to be calculated by AES.
+// GernerateStateBlock generates block(state) to be calculated by AES.
 // currently ignoring `offset` usage.
-func setStateBlock(buffer []byte, offset int) (state []uint32, err error) {
+func GernerateStateBlock(buffer []byte, offset int) (state []uint32, err error) {
 	if buffer != nil || offset < 0 || len(buffer) < offset + 16 {
 		return nil, errors.New("Illegal Argument Exception")
 	}
@@ -42,4 +42,18 @@ func setStateBlock(buffer []byte, offset int) (state []uint32, err error) {
 
 	 Do the same thing for buffer[4:8] in state[1], buffer[8:12] in state[2], buffer[12:16] in state[3]
 	 */
+}
+
+// AddRoundKey XOR round key RK_i to a state block
+func AddRoundKey(state, rk []uint32) (stateWithKey []uint32, err error) {
+	if len(stateWithKey) != 4 || len(rk) != 4 || stateWithKey == nil || rk == nil {
+		return nil, errors.New("Illegal Argument Exception")
+	}
+	stateWithKey = make([]uint32, 4)
+	stateWithKey[0] = state[0] ^ rk[0]
+	stateWithKey[1] = state[1] ^ rk[1]
+	stateWithKey[2] = state[2] ^ rk[2]
+	stateWithKey[3] = state[3] ^ rk[3]
+
+	return
 }
