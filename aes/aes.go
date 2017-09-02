@@ -24,8 +24,20 @@ func setStateBlock(buffer []byte, offset int) (state []uint32, err error) {
 	return
 
 	/*
+	 Each column of a state matrix sores 4 consecutive buffers.
+	 For example first column stores, buffer[0], buffer[1], buffer[2], buffer[3].
+	 In above, uint32 is prepared for a column, and each buffer is stored consecutively.
+	 For example, buffer[0] is stored in first 8 bits of uint32, while buffer[1] is in second 8 bits.
+
+	 EX:
 	 say original sting is "hogehogehogehoge" // 16 chars = 128 bits = 1 byte
 	 buffer = []byte("hogehogehogehoge")
-	 buffer[0] is a byte representation of "h"
+	 buffer[0] is a byte representation of "h", which is 104 in RUNE (or Code point).
+	 rune 104 can be represented as 01101000 in binary, which is 8 bits long.
+	 so to store that in state[0],  01101000 "h" is left shifted by 24.
+	 do the same thing for 01101111 "o", 01100111 "g", but left shift by 16 and 8.
+	 finally store 01100101 "e" in last 8 bits of state[0].
+
+	 Do the same thing for state[1]
 	 */
 }
