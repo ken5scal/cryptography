@@ -23,7 +23,3 @@ func setStateBlock(buffer []byte, offset int) (state []uint32, err error) {
 	state[3] = uint32(buffer[12])<<24 | uint32(buffer[13])<<16 | uint32(buffer[14])<<8 | uint32(buffer[15])
 	return
 }
-
-func getStateBlock(buffer []byte, offset int) {
-
-}
