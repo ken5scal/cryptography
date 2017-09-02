@@ -11,6 +11,8 @@ A 4 × 4 column-major order matrix of bytes on where AES operates.
 128 bits (16 bytes) of AES input is placed in each cell(1 byte).
  */
 
+// setStateBlock generates block(state) to be calculated by AES.
+// currently ignoring `offset` usage.
 func setStateBlock(buffer []byte, offset int) (state []uint32, err error) {
 	if buffer != nil || offset < 0 || len(buffer) < offset + 16 {
 		return nil, errors.New("Illegal Argument Exception")
