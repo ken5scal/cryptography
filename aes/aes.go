@@ -38,6 +38,6 @@ func setStateBlock(buffer []byte, offset int) (state []uint32, err error) {
 	 do the same thing for 01101111 "o", 01100111 "g", but left shift by 16 and 8.
 	 finally store 01100101 "e" in last 8 bits of state[0].
 
-	 Do the same thing for state[1]
+	 Do the same thing for buffer[4:8] in state[1], buffer[8:12] in state[2], buffer[12:16] in state[3]
 	 */
 }
