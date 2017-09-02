@@ -22,4 +22,10 @@ func setStateBlock(buffer []byte, offset int) (state []uint32, err error) {
 	state[2] = uint32(buffer[8])<<24 | uint32(buffer[9])<<16 | uint32(buffer[10])<<8 | uint32(buffer[11])
 	state[3] = uint32(buffer[12])<<24 | uint32(buffer[13])<<16 | uint32(buffer[14])<<8 | uint32(buffer[15])
 	return
+
+	/*
+	 say original sting is "hogehogehogehoge" // 16 chars = 128 bits = 1 byte
+	 buffer = []byte("hogehogehogehoge")
+	 buffer[0] is a byte representation of "h"
+	 */
 }
