@@ -6,8 +6,7 @@ import (
 )
 
 func main() {
-	ff := "hogehogehogehoge" // 16 chars = 128 bits = 1 byte
-	src := []byte(ff)
+	src := []byte("hogehogehogehoge")
 	s0 := uint32(src[0])<<24 | uint32(src[1])<<16 | uint32(src[2])<<8 | uint32(src[3])
 	fmt.Println(src[3], fmt.Sprintf("%b", src[3]), fmt.Sprintf("%b", uint32(src[3])))
 	fmt.Println(src[2], fmt.Sprintf("%b", src[2]), fmt.Sprintf("%b", uint32(src[2])<<8))
@@ -17,6 +16,8 @@ func main() {
 	fmt.Println([]rune("e"))
 	fmt.Println(strconv.QuoteRune(101))
 
-	fmt.Println(fmt.Sprintf("%b", 0xc66363a5))
-
+	ff := uint32(0xff) // 00000000000000000000000011111111
+	fmt.Println(fmt.Sprintf("%b", ff))
+	fmt.Println(fmt.Sprintf("%b", s0 >> 24), fmt.Sprintf("%b", s0 >> 24 & ff))
+	fmt.Println(fmt.Sprintf("%b", s0 >> 16), fmt.Sprintf("%b", s0 >> 16 & ff))
 }
