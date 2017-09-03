@@ -83,6 +83,25 @@ func SubBytes(state []uint32) (newState []uint32, err error) {
 	return
 }
 
+// InvSubBytes
+func InvSubBytes(state []uint32) (newState []uint32, err error) {
+	if len(state) != 4 || state == nil {
+		return nil, errors.New("Illegal Argument Exception")
+	}
+
+	ff := uint32(0xff) // 00000000000000000000000011111111
+	newState = make([]uint32, 4)
+
+	for i := 0; i < len(newState); i++ {
+		newState[i] = uint32(sbox1[state[i]>>24])<<24 |
+			uint32(sbox1[state[i]>>16&ff])<<16 | // &ff eliminates all bits except last 8 bits.
+			uint32(sbox1[state[i]>>8&ff])<<8 |
+			uint32(sbox1[state[i]&ff])
+	}
+
+	return
+}
+
 // FIPS-197 Figure 7. S-box substitution values in hexadecimal format.
 // Copied from go/src/crypto/aes/const.go
 var sbox0 = [256]byte{
