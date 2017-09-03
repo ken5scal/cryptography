@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
 func main() {
@@ -14,7 +13,6 @@ func main() {
 	fmt.Println(src[0], fmt.Sprintf("%b", src[0]), fmt.Sprintf("%b", uint32(src[0])<<24))
 	fmt.Println(fmt.Sprintf("%b", s0))
 	fmt.Println([]rune("e"))
-	fmt.Println(strconv.QuoteRune(101))
 
 	ff := uint32(0xff) // 00000000000000000000000011111111
 	fmt.Println(fmt.Sprintf("%b", ff))
