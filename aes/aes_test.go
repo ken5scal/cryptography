@@ -33,20 +33,24 @@ func TestGenerateStateBlock(t *testing.T) {
 	}
 }
 
-//func TestSubBytes(t *testing.T) {
-//	input := "hogefugaabcdefgh"
-//	state, _ := GenerateStateBlock([]byte(input))
-//	newState, err := SubBytes(state)
-//
-//	if err != nil {
-//		t.Error(err.Error())
-//	}
-//	buf := make([]byte, len(state)*4)
-//	for i, v := range state {
-//		int32tobyte(buf[i*4:], v)
-//	}
-//
-//	fmt.Printf("%b\n", buf)
-//	fmt.Printf("%b\n", newState)
-//	t.Error("No test has been written.") // I don't think you can...
-//}
+func TestSubBytes(t *testing.T) {
+	input := "hogefugaabcdefgh"
+	state, _ := GenerateStateBlock([]byte(input))
+	newState, err := SubBytes(state)
+
+	if err != nil {
+		t.Error(err.Error())
+	}
+
+	revState, err := InvSubBytes(newState)
+
+	if err != nil {
+		t.Error(err.Error())
+	}
+
+	for i, v := range state{
+		if v != revState[i] {
+			t.Errorf("InvSubBytes(SubBytes(%b)) = %b, want %b", state, revState, state)
+		}
+	}
+}
