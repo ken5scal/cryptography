@@ -4,7 +4,8 @@ import (
 	"testing"
 )
 
-func int32tobyte(b []byte, v uint32) {
+// reversed order `func (littleEndian) PutUint32(b []byte, v uint32)`
+func int32toByte(b []byte, v uint32) {
 	_ = b[3] // early bounds check to guarantee safety of writes below
 	b[3] = byte(v)
 	b[2] = byte(v >> 8)
@@ -23,7 +24,7 @@ func TestGenerateStateBlock(t *testing.T) {
 
 	buf := make([]byte, len(state)*4)
 	for i, v := range state {
-		int32tobyte(buf[i*4:], v)
+		int32toByte(buf[i*4:], v)
 	}
 
 	for i := range src {
@@ -48,7 +49,7 @@ func TestSubBytes(t *testing.T) {
 		t.Error(err.Error())
 	}
 
-	for i, v := range state{
+	for i, v := range state {
 		if v != revState[i] {
 			t.Errorf("InvSubBytes(SubBytes(%b)) = %b, want %b", state, revState, state)
 		}
