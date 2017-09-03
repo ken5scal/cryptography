@@ -9,9 +9,10 @@ import (
 A 4 × 4 column-major order matrix of bytes on where AES operates.
 128 bits (16 bytes) of AES input is placed in each cell(1 byte).
 */
-// GernerateStateBlock generates block(state) to be calculated by AES.
+
+// GenerateStateBlock generates block(state) to be calculated by AES.
 // currently ignoring `offset` usage.
-func GernerateStateBlock(buffer []byte, offset int) (state []uint32, err error) {
+func GenerateStateBlock(buffer []byte, offset int) (state []uint32, err error) {
 	if buffer != nil || offset < 0 || len(buffer) < offset+16 {
 		return nil, errors.New("Illegal Argument Exception")
 	}
@@ -67,10 +68,10 @@ func SubBytes(state []uint32) (newState []uint32, err error) {
 	ff := uint32(0xff) // 00000000000000000000000011111111
 	for i := 0; i < len(newState); i++ {
 		newState[i] =
-			uint32(sbox0[state[i] >> 24 & ff] << 24) |
-			uint32(sbox0[state[i] >> 16 & ff]) << 16 |
-			uint32(sbox0[state[i] >> 8 & ff]) << 8 |
-			uint32(sbox0[state[i] & ff])
+			uint32(sbox0[state[i]>>24&ff])<<24 |
+				uint32(sbox0[state[i]>>16&ff])<<16 |
+				uint32(sbox0[state[i]>>8&ff])<<8 |
+				uint32(sbox0[state[i]&ff])
 	}
 	return
 }
