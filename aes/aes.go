@@ -12,8 +12,10 @@ A 4 × 4 column-major order matrix of bytes on where AES operates.
 
 // GenerateStateBlock generates block(state) to be calculated by AES.
 // currently ignoring `offset` usage.
-func GenerateStateBlock(buffer []byte, offset int) (state []uint32, err error) {
-	if buffer != nil || offset < 0 || len(buffer) < offset+16 {
+//func GenerateStateBlock(buffer []byte, offset int) (state []uint32, err error) {
+func GenerateStateBlock(buffer []byte) (state []uint32, err error) {
+	//if buffer != nil || offset < 0 || len(buffer) < offset+16 {
+	if buffer == nil {
 		return nil, errors.New("Illegal Argument Exception")
 	}
 
@@ -31,7 +33,7 @@ func GenerateStateBlock(buffer []byte, offset int) (state []uint32, err error) {
 	 For example, buffer[0] is stored in first 8 bits of uint32, while buffer[1] is in second 8 bits.
 
 	 EX:
-	 say original sting is "hogehogehogehoge" // 16 chars = 128 bits = 1 byte
+	 say original sting is "hogehogehogehoge" // 16 chars  = 16 bytes = 128 bits
 	 buffer = []byte("hogehogehogehoge")
 	 buffer[0] is a byte representation of "h", which is 104 in RUNE (or Code point).
 	 rune 104 can be represented as 01101000 in binary, which is 8 bits long.
@@ -45,7 +47,7 @@ func GenerateStateBlock(buffer []byte, offset int) (state []uint32, err error) {
 
 // AddRoundKey XOR round key RK_i to a state block
 func AddRoundKey(state, rk []uint32) (newState []uint32, err error) {
-	if len(newState) != 4 || len(rk) != 4 || newState == nil || rk == nil {
+	if len(state) != 4 || len(rk) != 4 || state == nil || rk == nil {
 		return nil, errors.New("Illegal Argument Exception")
 	}
 	newState = make([]uint32, 4)
@@ -64,15 +66,20 @@ func AddRoundKey(state, rk []uint32) (newState []uint32, err error) {
 // For example, a byte 10110101 is split into 1011(b), 0101(5).
 // Reading (b, 5) in a SBox, the output will be 'd5'.
 func SubBytes(state []uint32) (newState []uint32, err error) {
-	newState = make([]uint32, 4)
-	ff := uint32(0xff) // 00000000000000000000000011111111
-	for i := 0; i < len(newState); i++ {
-		newState[i] =
-			uint32(sbox0[state[i]>>24&ff])<<24 |
-				uint32(sbox0[state[i]>>16&ff])<<16 |
-				uint32(sbox0[state[i]>>8&ff])<<8 |
-				uint32(sbox0[state[i]&ff])
+	if len(state) != 4 || state == nil {
+		return nil, errors.New("Illegal Argument Exception")
 	}
+
+	ff := uint32(0xff) // 00000000000000000000000011111111
+	newState = make([]uint32, 4)
+
+	for i := 0; i < len(newState); i++ {
+		newState[i] = uint32(sbox0[state[i]>>24])<<24 |
+			uint32(sbox0[state[i]>>16&ff])<<16 | // &ff eliminates all bits except last 8 bits.
+			uint32(sbox0[state[i]>>8&ff])<<8 |
+			uint32(sbox0[state[i]&ff])
+	}
+
 	return
 }
 
