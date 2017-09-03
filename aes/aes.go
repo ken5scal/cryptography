@@ -2,19 +2,18 @@ package aes
 
 import (
 	"errors"
-
 )
 
 /*
 # State
 A 4 × 4 column-major order matrix of bytes on where AES operates.
 128 bits (16 bytes) of AES input is placed in each cell(1 byte).
- */
+*/
 
 // GernerateStateBlock generates block(state) to be calculated by AES.
 // currently ignoring `offset` usage.
 func GernerateStateBlock(buffer []byte, offset int) (state []uint32, err error) {
-	if buffer != nil || offset < 0 || len(buffer) < offset + 16 {
+	if buffer != nil || offset < 0 || len(buffer) < offset+16 {
 		return nil, errors.New("Illegal Argument Exception")
 	}
 
@@ -41,19 +40,30 @@ func GernerateStateBlock(buffer []byte, offset int) (state []uint32, err error) 
 	 finally store 01100101 "e" in last 8 bits of state[0].
 
 	 Do the same thing for buffer[4:8] in state[1], buffer[8:12] in state[2], buffer[12:16] in state[3]
-	 */
+	*/
 }
 
 // AddRoundKey XOR round key RK_i to a state block
-func AddRoundKey(state, rk []uint32) (stateWithKey []uint32, err error) {
-	if len(stateWithKey) != 4 || len(rk) != 4 || stateWithKey == nil || rk == nil {
+func AddRoundKey(state, rk []uint32) (newState []uint32, err error) {
+	if len(newState) != 4 || len(rk) != 4 || newState == nil || rk == nil {
 		return nil, errors.New("Illegal Argument Exception")
 	}
-	stateWithKey = make([]uint32, 4)
-	stateWithKey[0] = state[0] ^ rk[0]
-	stateWithKey[1] = state[1] ^ rk[1]
-	stateWithKey[2] = state[2] ^ rk[2]
-	stateWithKey[3] = state[3] ^ rk[3]
+	newState = make([]uint32, 4)
+	newState[0] = state[0] ^ rk[0]
+	newState[1] = state[1] ^ rk[1]
+	newState[2] = state[2] ^ rk[2]
+	newState[3] = state[3] ^ rk[3]
 
+	return
+}
+
+// SubBytes applies nonlinear transformation per state.
+// There is so called a SBox (substitution-box), which is a table that converts 1 byte to new byte.
+// One byte is split into two 4bits. First 4 bits corresponds to x, and last 4 bits corresponds to y.
+// A cell at (x, y) in SBox will be the substituted result.
+// For example, a byte 10110101 is split into 1011(b), 0101(5).
+// Reading (b, 5) in a SBox, the output will be 'd5'.
+func SubBytes() (newState []uint32, err error) {
+	newState = make([]uint32, 4)
 	return
 }
