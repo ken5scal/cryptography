@@ -18,6 +18,6 @@ func main() {
 
 	ff := uint32(0xff) // 00000000000000000000000011111111
 	fmt.Println(fmt.Sprintf("%b", ff))
-	fmt.Println(fmt.Sprintf("%b", s0 >> 24), fmt.Sprintf("%b", s0 >> 24 & ff))
-	fmt.Println(fmt.Sprintf("%b", s0 >> 16), fmt.Sprintf("%b", s0 >> 16 & ff))
+	fmt.Println(fmt.Sprintf("%b", s0>>24), fmt.Sprintf("%b", s0>>24&ff))
+	fmt.Println(fmt.Sprintf("%b", s0>>16), fmt.Sprintf("%b", s0>>16&ff))
 }

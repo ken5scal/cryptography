@@ -66,16 +66,11 @@ func SubBytes(state []uint32) (newState []uint32, err error) {
 	newState = make([]uint32, 4)
 	ff := uint32(0xff) // 00000000000000000000000011111111
 	for i := 0; i < len(newState); i++ {
-		target := state[i]
-		first := target >> 24 & ff
-		second := target >> 16 & ff
-		third := target >> 8 & ff
-		fourth := target & ff
-
-		newState[i] = uint32(sbox0[first] << 24) |
-			uint32(sbox0[second]) << 16 |
-			uint32(sbox0[third]) << 8 |
-			uint32(sbox0[fourth])
+		newState[i] =
+			uint32(sbox0[state[i] >> 24 & ff] << 24) |
+			uint32(sbox0[state[i] >> 16 & ff]) << 16 |
+			uint32(sbox0[state[i] >> 8 & ff]) << 8 |
+			uint32(sbox0[state[i] & ff])
 	}
 	return
 }
