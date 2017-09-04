@@ -102,7 +102,15 @@ func InvSubBytes(state []uint32) (newState []uint32, err error) {
 	return
 }
 
+// ShiftRows does ....
+func ShiftRows() {
 
+}
+
+// InvShiftRows does ...
+func InvShiftRows() {
+
+}
 
 // FIPS-197 Figure 7. S-box substitution values in hexadecimal format.
 // Copied from go/src/crypto/aes/const.go
