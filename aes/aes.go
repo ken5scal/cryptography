@@ -83,7 +83,7 @@ func SubBytes(state []uint32) (newState []uint32, err error) {
 	return
 }
 
-// InvSubBytes
+// InvSubBytes reverses Substituted state back to original state.
 func InvSubBytes(state []uint32) (newState []uint32, err error) {
 	if len(state) != 4 || state == nil {
 		return nil, errors.New("Illegal Argument Exception")
@@ -101,6 +101,8 @@ func InvSubBytes(state []uint32) (newState []uint32, err error) {
 
 	return
 }
+
+
 
 // FIPS-197 Figure 7. S-box substitution values in hexadecimal format.
 // Copied from go/src/crypto/aes/const.go
