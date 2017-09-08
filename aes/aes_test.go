@@ -3,6 +3,7 @@ package aes
 import (
 	"testing"
 	"fmt"
+	"encoding/binary"
 )
 
 // reversed order `func (littleEndian) PutUint32(b []byte, v uint32)`
@@ -25,7 +26,7 @@ func TestGenerateStateBlock(t *testing.T) {
 
 	buf := make([]byte, len(state)*4)
 	for i, v := range state {
-		int32toByte(buf[i*4:], v)
+		binary.LittleEndian.PutUint32(buf[i*4:], v)
 	}
 
 	for i := range src {
