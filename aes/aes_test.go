@@ -2,6 +2,7 @@ package aes
 
 import (
 	"testing"
+	"fmt"
 )
 
 // reversed order `func (littleEndian) PutUint32(b []byte, v uint32)`
@@ -32,6 +33,16 @@ func TestGenerateStateBlock(t *testing.T) {
 			t.Errorf("GenerateStateBlock(%b) = %b, want %b", src, state[i], src[i])
 		}
 	}
+
+	newState := ShiftRows(state)
+	newBuf := make([]byte, len(newState)*4)
+	for i, v := range newState {
+		int32toByte(newBuf[i*4:], v)
+	}
+	fmt.Println(fmt.Sprintf("%b", buf))
+	fmt.Println(fmt.Sprintf("%b", state))
+	fmt.Println(fmt.Sprintf("%b", newBuf))
+	fmt.Println(fmt.Sprintf("%b", newState))
 }
 
 func TestSubBytes(t *testing.T) {

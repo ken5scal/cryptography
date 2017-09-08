@@ -105,28 +105,38 @@ func InvSubBytes(state []uint32) (newState []uint32, err error) {
 // ShiftRows shifts each row by {row index} byte.
 // For example, 1st row is shifted by 0 byte(so sty the same), 2nd row is shifted by 1 byte, 3rd row by 2 bytes, and 4th row by 3 bytes
 func ShiftRows(state []uint32) (newState []uint32) {
+	ff := uint32(0xff) // 00000000000000000000000011111111
 	newState = make([]uint32, 4)
 
 	s00 := state[0]>>24
-	s10 := state[1]>>16
-	s20 := state[2]>>8
-	s30 := state[3]
+	s10 := state[1]>>16&ff
+	s20 := state[2]>>8&ff
+	s30 := state[3]&ff
 
+	newState[0] = uint32(s00)<<24 | uint32(s10)<<16 | uint32(s20)<<8 |uint32(s30)
 
 	s01 := state[1]>>24
-	s11 := state[2]>>16
-	s12 := state[3]>>8
-	s13 := state[0]
+	s11 := state[2]>>16&ff
+	s21 := state[3]>>8&ff
+	s31 := state[0]&ff
+
+	newState[1] = uint32(s01)<<24 | uint32(s11)<<16 | uint32(s21)<<8 |uint32(s31)
 
 	s02 := state[2]>>24
-	s12 := state[3]>>16
-	s22 := state[0]>>8
-	s32 := state[1]
+	s12 := state[3]>>16&ff
+	s22 := state[0]>>8&ff
+	s32 := state[1]&ff
+
+	newState[2] = uint32(s02)<<24 | uint32(s12)<<16 | uint32(s22)<<8 |uint32(s32)
 
 	s03 := state[3]>>24
-	s13 := state[0]>>16
-	s23 := state[1]>>8
-	s33 := state[2]
+	s13 := state[0]>>16&ff
+	s23 := state[1]>>8&ff
+	s33 := state[2]&ff
+
+	newState[3] = uint32(s03)<<24 | uint32(s13)<<16 | uint32(s23)<<8 |uint32(s33)
+
+	return
 }
 
 // InvShiftRows does ...
