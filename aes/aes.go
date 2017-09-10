@@ -110,33 +110,30 @@ func ShiftRows(state []uint32) (newState []uint32) {
 	ff := uint32(0xff) // 00000000000000000000000011111111
 	newState = make([]uint32, 4)
 
-	s00 := state[0]>>24
-	s10 := state[1]>>16&ff
-	s20 := state[2]>>8&ff
-	s30 := state[3]&ff
+	// s33 | s22 | s11 | s00
+	newState[0] =
+		uint32(state[0]&ff)|
+		uint32(state[1]>>8&ff)<<8 |
+		uint32(state[2]>>16&ff)<<16 |
+		uint32(state[3]>>24&ff)<< 24
 
-	newState[0] = uint32(s00)<<24 | uint32(s10)<<16 | uint32(s20)<<8 |uint32(s30)
+	// s30 | s23 | s12 | s01
+	newState[1] = uint32(state[1]&ff) |
+		uint32(state[2]>>8&ff)<<8 |
+		uint32(state[3]>>16&ff)<<16 |
+		uint32(state[0]>>24&ff)<<24
 
-	s01 := state[1]>>24
-	s11 := state[2]>>16&ff
-	s21 := state[3]>>8&ff
-	s31 := state[0]&ff
+	// s31 | s20 | s13 | s02
+	newState[2] = uint32(state[2]&ff) |
+		uint32(state[3]>>8&ff)<<8 |
+		uint32(state[0]>>16&ff)<<16 |
+		uint32(state[1]>>24&ff)<<24
 
-	newState[1] = uint32(s01)<<24 | uint32(s11)<<16 | uint32(s21)<<8 |uint32(s31)
-
-	s02 := state[2]>>24
-	s12 := state[3]>>16&ff
-	s22 := state[0]>>8&ff
-	s32 := state[1]&ff
-
-	newState[2] = uint32(s02)<<24 | uint32(s12)<<16 | uint32(s22)<<8 |uint32(s32)
-
-	s03 := state[3]>>24
-	s13 := state[0]>>16&ff
-	s23 := state[1]>>8&ff
-	s33 := state[2]&ff
-
-	newState[3] = uint32(s03)<<24 | uint32(s13)<<16 | uint32(s23)<<8 |uint32(s33)
+	// s32 | s21 | s10 | s03
+	newState[3] = uint32(state[3]&ff) |
+		uint32(state[0]>>8&ff)<<8 |
+		uint32(state[1]>>16&ff)<<16 |
+		uint32(state[2]>>24&ff)<<24
 
 	return
 }
