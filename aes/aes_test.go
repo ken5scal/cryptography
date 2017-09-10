@@ -47,3 +47,15 @@ func TestSubBytes(t *testing.T) {
 		}
 	}
 }
+
+func TestShiftRows(t *testing.T) {
+	input := "hogefugaabcdefgh"
+	state, _ := GenerateStateBlock([]byte(input))
+	revState := InvShiftRows(ShiftRows(state))
+	for i, v := range state {
+		if v != revState[i] {
+			t.Errorf("InvShitRows(SubBytes(%b)) = %b, want %b", state, revState, state)
+		}
+	}
+
+}
