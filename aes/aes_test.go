@@ -2,7 +2,6 @@ package aes
 
 import (
 	"testing"
-	"fmt"
 	"encoding/binary"
 )
 
