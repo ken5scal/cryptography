@@ -24,10 +24,16 @@ func GenerateStateBlock(buffer []byte) (state []uint32, err error) {
 	//state[1] = uint32(buffer[4])<<24 | uint32(buffer[5])<<16 | uint32(buffer[6])<<8 | uint32(buffer[7])
 	//state[2] = uint32(buffer[8])<<24 | uint32(buffer[9])<<16 | uint32(buffer[10])<<8 | uint32(buffer[11])
 	//state[3] = uint32(buffer[12])<<24 | uint32(buffer[13])<<16 | uint32(buffer[14])<<8 | uint32(buffer[15])
-	state[0] = uint32(buffer[0]) | uint32(buffer[1])<<8 | uint32(buffer[2])<<16 | uint32(buffer[3])<<24
-	state[1] = uint32(buffer[4]) | uint32(buffer[5])<<8 | uint32(buffer[6])<<16 | uint32(buffer[7])<<24
-	state[2] = uint32(buffer[8]) | uint32(buffer[9])<<8 | uint32(buffer[10])<<16 | uint32(buffer[11])<<24
-	state[3] = uint32(buffer[12]) | uint32(buffer[13])<<8 | uint32(buffer[14])<<16 | uint32(buffer[15])<<24
+	//state[0] = uint32(buffer[0]) | uint32(buffer[1])<<8 | uint32(buffer[2])<<16 | uint32(buffer[3])<<24
+	//state[1] = uint32(buffer[4]) | uint32(buffer[5])<<8 | uint32(buffer[6])<<16 | uint32(buffer[7])<<24
+	//state[2] = uint32(buffer[8]) | uint32(buffer[9])<<8 | uint32(buffer[10])<<16 | uint32(buffer[11])<<24
+	//state[3] =  uint32(buffer[12]) | uint32(buffer[13])<<8 | uint32(buffer[14])<<16 | uint32(buffer[15])<<24
+	for i := 0; i < len(state); i++ {
+		state[i] = uint32(buffer[i * 4]) |
+			uint32(buffer[i * 4 + 1]) << 8 |
+			uint32(buffer[i * 4 + 2]) << 16 |
+			uint32(buffer[i * 4 + 3]) << 24
+	}
 	return
 
 	/*
@@ -145,8 +151,36 @@ func ShiftRows(state []uint32) (newState []uint32) {
 
 // InvShiftRows does ...
 func InvShiftRows(state []uint32) (newState []uint32) {
-	//ff := uint32(0xff) // 00000000000000000000000011111111
+	ff := uint32(0xff) // 00000000000000000000000011111111
 	newState = make([]uint32, 4)
+
+	s00 := state[0]>>24
+	s10 := state[1]>>16&ff
+	s20 := state[2]>>8&ff
+	s30 := state[3]&ff
+
+	newState[0] = uint32(s00)<<24 | uint32(s10)<<16 | uint32(s20)<<8 |uint32(s30)
+
+	s01 := state[1]>>24
+	s11 := state[2]>>16&ff
+	s21 := state[3]>>8&ff
+	s31 := state[0]&ff
+
+	newState[1] = uint32(s01)<<24 | uint32(s11)<<16 | uint32(s21)<<8 |uint32(s31)
+
+	s02 := state[2]>>24
+	s12 := state[3]>>16&ff
+	s22 := state[0]>>8&ff
+	s32 := state[1]&ff
+
+	newState[2] = uint32(s02)<<24 | uint32(s12)<<16 | uint32(s22)<<8 |uint32(s32)
+
+	s03 := state[3]>>24
+	s13 := state[0]>>16&ff
+	s23 := state[1]>>8&ff
+	s33 := state[2]&ff
+
+	newState[3] = uint32(s03)<<24 | uint32(s13)<<16 | uint32(s23)<<8 |uint32(s33)
 
 	return
 }
