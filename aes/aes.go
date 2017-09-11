@@ -170,6 +170,16 @@ func InvShiftRows(state []uint32) (newState []uint32) {
 	return
 }
 
+// MixColumns mixes column
+func MixColumns(state []uint32) (newState []uint32) {
+	return
+}
+
+// InvMixColumns mixes column
+func InvMixColumns(state []uint32) (newState []uint32) {
+	return
+}
+
 // FIPS-197 Figure 7. S-box substitution values in hexadecimal format.
 // Copied from go/src/crypto/aes/const.go
 var sbox0 = [256]byte{
