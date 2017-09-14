@@ -7,7 +7,7 @@ import (
 /*
 # State
 A 4 × 4 column-major order matrix of bytes on where AES operates.
-128 bits (16 bytes) of AES input is placed in each cell(1 byte).
+128 bits (16 bytes) of input is placed in each cell(1 byte).
 */
 
 // GenerateStateBlock generates block(state) to be calculated by AES.

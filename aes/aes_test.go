@@ -64,6 +64,7 @@ func TestMixCloumns(t *testing.T) {
 	input := "hogefugaabcdefgh"
 	state, _ := GenerateStateBlock([]byte(input))
 	revState := InvMixColumns(MixColumns(state))
+
 	for i, v := range state {
 		if v != revState[i] {
 			t.Errorf("InvMixColumns(SubBytes(%b)) = %b, want %b", state, revState, state)
